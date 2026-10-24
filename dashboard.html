@@ -657,21 +657,26 @@
             <button type="button" onclick="hideCustomModal()" class="w-full py-3 bg-gradient-to-r from-sky-600 to-emerald-600 text-white font-extrabold rounded-2xl text-xs shadow-md">Got it</button>
         </div>
     </div>
+<!-- FIREBASE CDN (Compat Version) -->
+<script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-firestore-compat.js"></script>
 
-    <!-- FIREBASE CDN -->
-    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-firestore-compat.js"></script>
+<script>
+// FIREBASE CONFIGURATION (Naya Project)
+const firebaseConfig = {
+  apiKey: "AIzaSyBhbjQycXX-AcJKUeuE3KowSo_RjabanRI",
+  authDomain: "tethertrade-31b95.firebaseapp.com",
+  projectId: "tethertrade-31b95",
+  storageBucket: "tethertrade-31b95.firebasestorage.app",
+  messagingSenderId: "75351581664",
+  appId: "1:75351581664:web:439a2211a6f60a79018185"
+};
 
-    <script>
-        // FIREBASE CONFIGURATION
-        const firebaseConfig = {
-          apiKey: "AIzaSyCRocodkDhKanc-9hTI2xpzfihlh29udio",
-          authDomain: "trusted-usdt-seller.firebaseapp.com",
-          projectId: "trusted-usdt-seller",
-          appId: "1:667426874776:web:2c058a8b06a985e390b7ed"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
+const db = firebase.firestore();
+
 
         let currentStep = 1;
         const totalSteps = 5;

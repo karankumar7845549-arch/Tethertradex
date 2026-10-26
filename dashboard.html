@@ -368,31 +368,9 @@
 
                     <!-- QR Code & UPI Details Box -->
                     <div class="flex flex-col items-center justify-center space-y-4 bg-slate-50 p-6 rounded-3xl border border-slate-200">
-                        <div class="bg-white p-3 rounded-2xl shadow-md border-2 border-sky-500">
-                            <!-- Crisp SVG QR Code -->
-                            <svg class="w-36 h-36 sm:w-44 sm:h-44" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="100" height="100" fill="white"/>
-                                <rect x="10" y="10" width="28" height="28" stroke="black" stroke-width="6"/>
-                                <rect x="16" y="16" width="16" height="16" fill="black"/>
-                                <rect x="62" y="10" width="28" height="28" stroke="black" stroke-width="6"/>
-                                <rect x="68" y="16" width="16" height="16" fill="black"/>
-                                <rect x="10" y="62" width="28" height="28" stroke="black" stroke-width="6"/>
-                                <rect x="16" y="68" width="16" height="16" fill="black"/>
-                                <rect x="44" y="12" width="6" height="6" fill="black"/>
-                                <rect x="52" y="20" width="6" height="12" fill="black"/>
-                                <rect x="44" y="28" width="8" height="6" fill="black"/>
-                                <rect x="12" y="46" width="10" height="6" fill="black"/>
-                                <rect x="26" y="44" width="8" height="8" fill="black"/>
-                                <rect x="44" y="44" width="12" height="12" fill="black"/>
-                                <rect x="62" y="44" width="10" height="10" fill="black"/>
-                                <rect x="78" y="48" width="12" height="6" fill="black"/>
-                                <rect x="12" y="78" width="8" height="8" fill="black"/>
-                                <rect x="44" y="62" width="6" height="10" fill="black"/>
-                                <rect x="54" y="68" width="8" height="8" fill="black"/>
-                                <rect x="68" y="64" width="6" height="14" fill="black"/>
-                                <rect x="80" y="72" width="10" height="12" fill="black"/>
-                            </svg>
-                        </div>
+                       <div class="bg-white p-3 rounded-2xl shadow-md border-2 border-sky-500">
+    <img id="dynamicQrImage" src="" alt="QR Code" style="width:160px; height:160px; object-fit:contain; border-radius:12px;">
+</div>
                         
                         <div class="w-full space-y-1">
                             <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider">Verified Merchant UPI ID</label>
@@ -708,7 +686,7 @@ const db = firebase.firestore();
             fetchUserTransactions(loggedInUserPhone);
         };
 
-        async function fetchGlobalSettings() {
+        Async function fetchGlobalSettings() {
             try {
                 const doc = await db.collection("settings").doc("global").get();
                 if (doc.exists) {
@@ -729,6 +707,14 @@ const db = firebase.firestore();
                         document.getElementById("displayUpiId").value = adminUpiId;
                     }
                     if(data.telegram) telegramSupportLink = data.telegram;
+                    
+                    // Naya QR code render karne ka code yahan joda gaya hai
+                    if(data.qrCode) {
+                        const qrImg = document.getElementById("dynamicQrImage");
+                        if(qrImg) {
+                            qrImg.src = data.qrCode;
+                        }
+                    }
                 }
             } catch(e) {}
         }

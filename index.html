@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tether Trade  - Login & Markets</title>
+<title>NextGen Place - Login & Markets</title>
 
 <!-- Font Awesome Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -367,25 +367,25 @@ border-top:1px solid #e5e7eb;
 <body>
 
 <header>
-<div class="logo">⚡ Tether Trade</div>
+<div class="logo">⚡ NextGen Place</div>
 <button onclick="openSidebar()" style="font-size:22px; background:none; border:none; color:#111; cursor:pointer;"><i class="fa-solid fa-bars"></i></button>
 </header>
 
 <!-- HERO -->
 <div class="hero">
-<div class="tag">🌍 P2P + Instant Buying</div>
+<div class="tag">🌍 Instant Buying</div>
 <h1>Buy USDT & Trade Crypto <br> With <span class="shining-text">Confidence</span></h1>
-<p>Trade peer-to-peer or buy USDT instantly via UPI & bank transfer.</p>
+<p>Buy USDT instantly via UPI & bank transfer with zero extra fees.</p>
 
-<a class="btn primary" onclick="showLogin()"><i class="fa-solid fa-rocket" style="margin-right:8px;"></i> Start Trading</a>
+<a class="btn primary" onclick="showLogin()"><i class="fa-solid fa-rocket" style="margin-right:8px;"></i> Buy USDT</a>
 <a class="btn primary" onclick="showLogin()"><i class="fa-solid fa-lock" style="margin-right:8px;"></i> Login</a>
 <a class="btn secondary" onclick="showSignup()"><i class="fa-solid fa-user-plus" style="margin-right:8px;"></i> Register Account</a>
 </div>
 
 <!-- STATS -->
 <div class="stats">
-<div><h3>₹210Cr+</h3><p>Volume</p></div>
-<div><h3>80K+</h3><p>Users</p></div>
+<div><h3>₹15L+</h3><p>Volume</p></div>
+<div><h3>25K+</h3><p>Users</p></div>
 <div><h3>0%</h3><p>Extra Fee</p></div>
 <div><h3>&lt;15m</h3><p>Payout</p></div>
 </div>
@@ -407,7 +407,7 @@ border-top:1px solid #e5e7eb;
         </thead>
         <tbody id="cryptoTableBody">
             <tr>
-                <td colspan="4" style="text-align:center; color:#666; padding: 20px;">Live prices load ho rahe hain...</td>
+                <td colspan="4" style="text-align:center; color:#666; padding: 20px;">Loading live market data...</td>
             </tr>
         </tbody>
     </table>
@@ -416,12 +416,12 @@ border-top:1px solid #e5e7eb;
 
 <!-- FOOTER -->
 <footer>
-<h2 style="font-size:20px; color:#111; letter-spacing: 1px;">TETHER TRADE</h2>
+<h2 style="font-size:20px; color:#111; letter-spacing: 1px;">NEXTGEN PLACE</h2>
 <p style="color:#666; font-size:12px; margin-top:6px; line-height: 1.4;">
 India's most transparent INR-to-USDT buying platform and digital asset exchange.
 </p>
 <div style="text-align:center; padding:15px 0 5px 0; color:#888; font-size:10px;">
-© 2026 Tether Trade Exchange. All rights reserved.
+© 2026 NextGen Place Exchange. All rights reserved.
 </div>
 </footer>
 
@@ -464,8 +464,6 @@ padding: 20px 0;
         <div id="registerFields" style="display:none;">
             <input id="fullname" placeholder="Full Name" style="width:100%; margin-top:10px; padding:12px; border-radius:10px; border:1px solid #d1d5db; background:#f9fafb; color:#111; font-size:13px;">
             <input id="email" type="email" placeholder="Gmail Address" style="width:100%; margin-top:10px; padding:12px; border-radius:10px; border:1px solid #d1d5db; background:#f9fafb; color:#111; font-size:13px;">
-            <input id="state" placeholder="State" style="width:100%; margin-top:10px; padding:12px; border-radius:10px; border:1px solid #d1d5db; background:#f9fafb; color:#111; font-size:13px;">
-            <input id="district" placeholder="District" style="width:100%; margin-top:10px; padding:12px; border-radius:10px; border:1px solid #d1d5db; background:#f9fafb; color:#111; font-size:13px;">
         </div>
 
         <input id="phone" placeholder="Phone Number" style="width:100%; margin-top:10px; padding:12px; border-radius:10px; border:1px solid #d1d5db; background:#f9fafb; color:#111; font-size:13px;">
@@ -482,7 +480,7 @@ padding: 20px 0;
 <!-- SIDEBAR -->
 <div id="sidebar">
     <div class="sidebar-header">
-        <div class="sidebar-brand">Tether Trade</div>
+        <div class="sidebar-brand">NextGen Place</div>
         <div class="sidebar-close" onclick="closeSidebar()">✕</div>
     </div>
     <div class="sidebar-menu">
@@ -612,12 +610,10 @@ function closeAuth() {
 async function registerUser() {
     const name = document.getElementById("fullname").value.trim();
     const email = document.getElementById("email").value.trim();
-    const state = document.getElementById("state").value.trim();
-    const district = document.getElementById("district").value.trim();
     const phone = document.getElementById("phone").value.trim();
     const pass = document.getElementById("password").value.trim();
 
-    if (!name || !email || !state || !district || !phone || !pass) {
+    if (!name || !email || !phone || !pass) {
         showAlert("Please fill in all fields!", "error");
         return;
     }
@@ -626,8 +622,6 @@ async function registerUser() {
         await db.collection("users").doc(phone).set({
             name: name,
             email: email,
-            state: state,
-            district: district,
             phone: phone,
             password: pass,
             createdAt: new Date().toISOString()

@@ -931,7 +931,7 @@
             renderFilteredTransactions(status);
         }
 
-                function renderFilteredTransactions(status) {
+                        function renderFilteredTransactions(status) {
             const list = document.getElementById("userTxnList");
             let filtered = allUserOrders;
 
@@ -957,9 +957,11 @@
                     displayStatus = "Rejected ✕";
                 }
 
+                // Multiple field fallback check for reject reason
+                let rejectionText = d.rejectReason || d.reason || d.rejectionReason || "";
                 let reasonHtml = "";
-                if(d.status === "Rejected" && d.rejectReason) {
-                    reasonHtml = `<div class="mt-2 p-2.5 bg-rose-50 border border-rose-200 rounded-2xl text-[11px] text-rose-700"><strong>Reason:</strong> ${d.rejectReason}</div>`;
+                if(d.status === "Rejected" && rejectionText) {
+                    reasonHtml = `<div class="mt-2 p-2.5 bg-rose-50 border border-rose-200 rounded-2xl text-[11px] text-rose-700"><strong>Reason:</strong> ${rejectionText}</div>`;
                 }
 
                 html += `
@@ -975,6 +977,7 @@
             });
             list.innerHTML = html;
         }
+
 
         function logoutUser() {
             localStorage.removeItem("user");

@@ -187,7 +187,7 @@
                 <!-- METRICS CARD WITH 4.9/5 RATING & SETTLED 2L+ DEALS -->
                 <div class="grid grid-cols-3 gap-3 bg-white p-4 rounded-3xl border border-slate-200 text-center shadow-md">
                     <div>
-                        <div class="text-lg font-black text-slate-900">65,000+</div>
+                        <div class="text-lg font-black text-slate-900">80,000+</div>
                         <div class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Verified Users</div>
                     </div>
                     <div class="border-x border-slate-200">
@@ -931,7 +931,7 @@
             renderFilteredTransactions(status);
         }
 
-        function renderFilteredTransactions(status) {
+                function renderFilteredTransactions(status) {
             const list = document.getElementById("userTxnList");
             let filtered = allUserOrders;
 
@@ -957,6 +957,11 @@
                     displayStatus = "Rejected ✕";
                 }
 
+                let reasonHtml = "";
+                if(d.status === "Rejected" && d.rejectReason) {
+                    reasonHtml = `<div class="mt-2 p-2.5 bg-rose-50 border border-rose-200 rounded-2xl text-[11px] text-rose-700"><strong>Reason:</strong> ${d.rejectReason}</div>`;
+                }
+
                 html += `
                 <div class="bg-white border border-slate-200 p-5 rounded-3xl space-y-2 shadow-xs font-mono text-xs">
                     <div class="flex justify-between items-center">
@@ -965,6 +970,7 @@
                     </div>
                     <div class="text-[11px] text-slate-500">UTR: ${d.utr}</div>
                     <div class="text-[10px] text-slate-400 truncate">Wallet: ${d.walletAddress}</div>
+                    ${reasonHtml}
                 </div>`;
             });
             list.innerHTML = html;

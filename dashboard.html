@@ -237,10 +237,10 @@
                         
                         <div class="w-full flex flex-col items-center justify-center space-y-3">
                             <div id="adminQrContainer" class="w-full flex items-center justify-center">
-                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=upi://pay?pa=anjasha8294-2@okicici&pn=TetherTrade&am=0" alt="Payment QR" class="max-w-[260px] h-auto object-contain block mx-auto">
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=upi://pay?pa=7766025551@nves&pn=TetherTrade&am=0" alt="Payment QR" class="max-w-[260px] h-auto object-contain block mx-auto">
                             </div>
                             <div class="text-xs font-mono text-slate-600 text-center font-bold">
-                                UPI ID: <span id="displayUpiId" class="text-sky-600">anjasha8294-2@okicici</span>
+                                UPI ID: <span id="displayUpiId" class="text-sky-600">7766025551@nves</span>
                                 <button type="button" onclick="copyText('displayUpiId')" class="ml-2 text-slate-500 hover:text-slate-800"><i class="fa-regular fa-copy"></i></button>
                             </div>
                         </div>
@@ -324,18 +324,22 @@
                     <p class="text-slate-500 text-xs">Real-time escrow status and order history.</p>
                 </div>
 
-                <div class="grid grid-cols-3 gap-3">
-                    <div class="bg-white p-4 rounded-2xl border border-slate-200 text-center shadow-xs">
-                        <div class="text-xl font-black text-slate-900 font-mono" id="cnt-total">0</div>
-                        <div class="text-[10px] text-slate-500 font-bold tracking-wider uppercase mt-1">TOTAL</div>
+                <div class="grid grid-cols-4 gap-2">
+                    <div onclick="filterUserTxns('All')" id="user-filter-All" class="bg-white p-3 rounded-2xl border border-sky-500 text-center shadow-xs cursor-pointer transition">
+                        <div class="text-base font-black text-slate-900 font-mono" id="cnt-total">0</div>
+                        <div class="text-[9px] text-slate-500 font-bold tracking-wider uppercase mt-0.5">TOTAL</div>
                     </div>
-                    <div class="bg-white p-4 rounded-2xl border border-slate-200 text-center shadow-xs">
-                        <div class="text-xl font-black text-emerald-600 font-mono" id="cnt-completed">0</div>
-                        <div class="text-[10px] text-slate-500 font-bold tracking-wider uppercase mt-1">COMPLETED</div>
+                    <div onclick="filterUserTxns('Completed')" id="user-filter-Completed" class="bg-white p-3 rounded-2xl border border-slate-200 text-center shadow-xs cursor-pointer transition">
+                        <div class="text-base font-black text-emerald-600 font-mono" id="cnt-completed">0</div>
+                        <div class="text-[9px] text-slate-500 font-bold tracking-wider uppercase mt-0.5">COMPLETED</div>
                     </div>
-                    <div class="bg-white p-4 rounded-2xl border border-slate-200 text-center shadow-xs">
-                        <div class="text-xl font-black text-amber-600 font-mono" id="cnt-pending">0</div>
-                        <div class="text-[10px] text-slate-500 font-bold tracking-wider uppercase mt-1">PENDING</div>
+                    <div onclick="filterUserTxns('Pending')" id="user-filter-Pending" class="bg-white p-3 rounded-2xl border border-slate-200 text-center shadow-xs cursor-pointer transition">
+                        <div class="text-base font-black text-amber-600 font-mono" id="cnt-pending">0</div>
+                        <div class="text-[9px] text-slate-500 font-bold tracking-wider uppercase mt-0.5">PENDING</div>
+                    </div>
+                    <div onclick="filterUserTxns('Rejected')" id="user-filter-Rejected" class="bg-white p-3 rounded-2xl border border-slate-200 text-center shadow-xs cursor-pointer transition">
+                        <div class="text-base font-black text-rose-600 font-mono" id="cnt-rejected">0</div>
+                        <div class="text-[9px] text-slate-500 font-bold tracking-wider uppercase mt-0.5">REJECTED</div>
                     </div>
                 </div>
 
@@ -469,9 +473,11 @@
         const db = firebase.firestore();
 
         let liveRate = 91.45;
-        let adminUpiId = "anjasha8294-2@okicici";
+        let adminUpiId = "7766025551@nves";
         let telegramSupportLink = "https://t.me/Tetherguard7s";
         let minOrderLimit = 20;
+        let cachedUserOrders = [];
+        let currentUserTxnFilter = 'All';
 
         window.onload = async function() {
             const loggedInUserPhone = localStorage.getItem("user");
@@ -659,60 +665,95 @@
                 const snapshot = await db.collection("orders").where("phone", "==", phone).get();
                 if(snapshot.empty) {
                     list.innerHTML = `<div class="bg-white border border-slate-200 p-6 rounded-3xl text-center text-xs text-slate-500">No orders found yet.</div>`;
+                    cachedUserOrders = [];
                     updateTxnCounters([]);
                     return;
                 }
                 
-                let allUserOrders = [];
-                snapshot.forEach(doc => allUserOrders.push(doc.data()));
+                cachedUserOrders = [];
+                snapshot.forEach(doc => cachedUserOrders.push(doc.data()));
 
-                updateTxnCounters(allUserOrders);
-                
-                let html = "";
-                allUserOrders.forEach(d => {
-                    let statusColor = "text-amber-700 bg-amber-50 border-amber-200";
-                    let displayStatus = d.status || "Pending";
-                    if(d.status === "Approved" || d.status === "Completed") {
-                        statusColor = "text-emerald-700 bg-emerald-50 border-emerald-200";
-                        displayStatus = "Completed ✓";
-                    }
-                    if(d.status === "Rejected") {
-                        statusColor = "text-rose-700 bg-rose-50 border-rose-200";
-                        displayStatus = "Rejected ✕";
-                    }
-
-                    // Multi-field rejection reason lookup supporting remarks, rejectReason, and reason
-                    let rejectionText = d.rejectReason || d.remarks || d.reason || "";
-                    let reasonHtml = "";
-                    if(d.status === "Rejected" && rejectionText) {
-                        reasonHtml = `<div class="mt-2 p-2.5 bg-rose-50 border border-rose-200 rounded-2xl text-[11px] text-rose-700"><strong>Reason:</strong> ${rejectionText}</div>`;
-                    }
-
-                    html += `
-                    <div class="bg-white border border-slate-200 p-5 rounded-3xl space-y-2 shadow-xs font-mono text-xs">
-                        <div class="flex justify-between items-center">
-                            <span class="font-black text-slate-900">${d.usdtAmount} USDT (${d.network})</span>
-                            <span class="px-3 py-1 rounded-full text-[10px] font-extrabold border ${statusColor}">${displayStatus}</span>
-                        </div>
-                        <div class="text-[11px] text-slate-500">UTR: ${d.utr || 'N/A'} • Exchange: ${d.exchange || 'Binance'}</div>
-                        <div class="text-[10px] text-slate-400 truncate">Wallet: ${d.walletAddress}</div>
-                        ${reasonHtml}
-                    </div>`;
-                });
-                list.innerHTML = html;
+                updateTxnCounters(cachedUserOrders);
+                renderUserTransactionsList();
             } catch(e) {
                 list.innerHTML = `<div class="bg-white border border-slate-200 p-6 rounded-3xl text-center text-xs text-rose-500">Error loading orders</div>`;
             }
+        }
+
+        function filterUserTxns(status) {
+            currentUserTxnFilter = status;
+            ['All', 'Completed', 'Pending', 'Rejected'].forEach(s => {
+                const el = document.getElementById(`user-filter-${s}`);
+                if(el) {
+                    if(s === status) {
+                        el.className = "bg-white p-3 rounded-2xl border border-sky-500 text-center shadow-xs cursor-pointer transition";
+                    } else {
+                        el.className = "bg-white p-3 rounded-2xl border border-slate-200 text-center shadow-xs cursor-pointer transition";
+                    }
+                }
+            });
+            renderUserTransactionsList();
+        }
+
+        function renderUserTransactionsList() {
+            const list = document.getElementById("userTxnList");
+            let filtered = cachedUserOrders.filter(d => {
+                let status = d.status || "Pending";
+                if(currentUserTxnFilter === 'All') return true;
+                if(currentUserTxnFilter === 'Completed') return status === "Approved" || status === "Completed";
+                if(currentUserTxnFilter === 'Pending') return status === "Pending";
+                if(currentUserTxnFilter === 'Rejected') return status === "Rejected";
+                return true;
+            });
+
+            if(filtered.length === 0) {
+                list.innerHTML = `<div class="bg-white border border-slate-200 p-6 rounded-3xl text-center text-xs text-slate-500">No ${currentUserTxnFilter.toLowerCase()} orders found.</div>`;
+                return;
+            }
+
+            let html = "";
+            filtered.forEach(d => {
+                let statusColor = "text-amber-700 bg-amber-50 border-amber-200";
+                let displayStatus = d.status || "Pending";
+                if(d.status === "Approved" || d.status === "Completed") {
+                    statusColor = "text-emerald-700 bg-emerald-50 border-emerald-200";
+                    displayStatus = "Completed ✓";
+                }
+                if(d.status === "Rejected") {
+                    statusColor = "text-rose-700 bg-rose-50 border-rose-200";
+                    displayStatus = "Rejected ✕";
+                }
+
+                let rejectionText = d.rejectReason || d.remarks || d.reason || "";
+                let reasonHtml = "";
+                if(d.status === "Rejected" && rejectionText) {
+                    reasonHtml = `<div class="mt-2 p-2.5 bg-rose-50 border border-rose-200 rounded-2xl text-[11px] text-rose-700"><strong>Reason:</strong> ${rejectionText}</div>`;
+                }
+
+                html += `
+                <div class="bg-white border border-slate-200 p-5 rounded-3xl space-y-2 shadow-xs font-mono text-xs">
+                    <div class="flex justify-between items-center">
+                        <span class="font-black text-slate-900">${d.usdtAmount} USDT (${d.network})</span>
+                        <span class="px-3 py-1 rounded-full text-[10px] font-extrabold border ${statusColor}">${displayStatus}</span>
+                    </div>
+                    <div class="text-[11px] text-slate-500">UTR: ${d.utr || 'N/A'} • Exchange: ${d.exchange || 'Binance'}</div>
+                    <div class="text-[10px] text-slate-400 truncate">Wallet: ${d.walletAddress}</div>
+                    ${reasonHtml}
+                </div>`;
+            });
+            list.innerHTML = html;
         }
 
         function updateTxnCounters(orders) {
             const total = orders.length;
             const completed = orders.filter(o => o.status === "Approved" || o.status === "Completed").length;
             const pending = orders.filter(o => o.status === "Pending" || !o.status).length;
+            const rejected = orders.filter(o => o.status === "Rejected").length;
 
             document.getElementById('cnt-total').innerText = total;
             document.getElementById('cnt-completed').innerText = completed;
             document.getElementById('cnt-pending').innerText = pending;
+            document.getElementById('cnt-rejected').innerText = rejected;
         }
 
         function logoutUser() {

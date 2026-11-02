@@ -252,7 +252,7 @@
                 </footer>
             </div>
 
-            <!-- BUY TAB (2-STEP WORKFLOW WITH 5 NETWORKS & STABLE QR / SHAKE UPI) -->
+            <!-- BUY TAB (2-STEP WORKFLOW WITH 5 NETWORKS & RAW UNRESTRICTED QR) -->
             <div id="tab-buy" class="p-4 sm:p-6 space-y-6 hidden">
                 <div class="bg-white border border-slate-200 p-4 rounded-2xl flex justify-between items-center shadow-xs">
                     <span class="text-xs font-black uppercase tracking-wider text-slate-600">Live Institutional Rate</span>
@@ -325,7 +325,7 @@
                     </button>
                 </div>
 
-                <!-- STEP 2: STABLE QR CONTAINER & UPI BOX (2s SHAKE) -->
+                <!-- STEP 2: RAW UNRESTRICTED QR & UPI BOX (2s SHAKE) -->
                 <div id="buy-step-2" class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl hidden">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-200 pb-4">
                         <div>
@@ -339,9 +339,9 @@
                     </div>
 
                     <div class="flex flex-col items-center justify-center space-y-4 bg-slate-50 p-6 rounded-3xl border border-slate-200">
-                        <!-- Fully Stable QR Code Container (No Animation, Fully Responsive & Non-Cutting) -->
-                        <div class="bg-white p-3 rounded-2xl shadow-md border-2 border-sky-500 w-full max-w-[240px] aspect-square flex items-center justify-center overflow-hidden" id="adminQrContainer">
-                            <span class="text-xs text-slate-400 font-mono">Loading Admin QR...</span>
+                        <!-- Raw Unrestricted QR Container (Displays Uploaded Image Directly Without Cropping) -->
+                        <div class="w-full flex items-center justify-center overflow-hidden bg-transparent" id="adminQrContainer">
+                            <span class="text-xs text-slate-400 font-mono py-12">Loading Admin QR...</span>
                         </div>
                         
                         <!-- UPI ID UI Box with 2s Shake Animation -->
@@ -651,7 +651,7 @@
                     if(data.qrCode) {
                         const qrContainer = document.getElementById("adminQrContainer");
                         if(qrContainer) {
-                            qrContainer.innerHTML = `<img src="${data.qrCode}" alt="Admin Payment QR" class="w-full h-full object-contain">`;
+                            qrContainer.innerHTML = `<img src="${data.qrCode}" alt="Admin Payment QR" class="w-full h-auto max-h-[360px] object-contain block mx-auto">`;
                         }
                     }
                 }

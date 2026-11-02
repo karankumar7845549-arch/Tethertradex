@@ -4,100 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tether Trade - Institutional Digital Asset Settlement</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-        
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #fcfbf9;
-            color: #0f172a;
-            overflow-x: hidden;
-            margin: 0;
-            padding: 0;
-        }
-
-        .skeleton-shimmer {
-            background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-        }
-        @keyframes shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
-        @keyframes shine {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-        .shining-text {
-            background: linear-gradient(90deg, #b45309 0%, #0284c7 50%, #059669 100%);
-            background-size: 200% auto;
-            color: transparent;
-            -webkit-background-clip: text;
-            animation: shine 4s linear infinite;
-        }
-        
-        /* Animated VIP Shining Card Effect */
-        .shining-card {
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-            border: 1px solid rgba(56, 189, 248, 0.4);
-            box-shadow: 0 20px 40px -10px rgba(2, 132, 199, 0.25);
-        }
-        .shining-card::after {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(60deg, transparent 40%, rgba(255, 255, 255, 0.15) 50%, transparent 60%);
-            transform: rotate(30deg);
-            animation: cardShine 3.5s linear infinite;
-        }
-        @keyframes cardShine {
-            0% { transform: translateX(-100%) rotate(30deg); }
-            100% { transform: translateX(100%) rotate(30deg); }
-        }
-
-        /* UPI Box Shake Animation every 2 seconds */
-        @keyframes upiShake {
-            0%, 100% { transform: translateX(0); }
-            15% { transform: translateX(-5px); }
-            30% { transform: translateX(5px); }
-            45% { transform: translateX(-4px); }
-            60% { transform: translateX(4px); }
-            75% { transform: translateX(-2px); }
-            90% { transform: translateX(2px); }
-        }
-        .animate-upi-shake {
-            animation: upiShake 2s ease-in-out infinite;
-        }
-
-        @keyframes slideText {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-        .marquee-container {
-            overflow: hidden;
-            white-space: nowrap;
-            width: 100%;
-        }
-        .marquee-text {
-            display: inline-block;
-            animation: slideText 18s linear infinite;
-        }
-
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #fcfbf9; color: #0f172a; overflow-x: hidden; margin: 0; padding: 0; }
+        .skeleton-shimmer { background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        @keyframes shine { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        .shining-text { background: linear-gradient(90deg, #b45309 0%, #0284c7 50%, #059669 100%); background-size: 200% auto; color: transparent; -webkit-background-clip: text; animation: shine 4s linear infinite; }
+        .shining-card { position: relative; overflow: hidden; background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%); border: 1px solid rgba(56, 189, 248, 0.4); box-shadow: 0 20px 40px -10px rgba(2, 132, 199, 0.25); }
+        .shining-card::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(60deg, transparent 40%, rgba(255, 255, 255, 0.15) 50%, transparent 60%); transform: rotate(30deg); animation: cardShine 3.5s linear infinite; }
+        @keyframes cardShine { 0% { transform: translateX(-100%) rotate(30deg); } 100% { transform: translateX(100%) rotate(30deg); } }
+        @keyframes slideText { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        .marquee-container { overflow: hidden; white-space: nowrap; width: 100%; }
+        .marquee-text { display: inline-block; animation: slideText 18s linear infinite; }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
     </style>
 </head>
 <body class="bg-[#fcfbf9] text-slate-900 flex justify-center min-h-screen relative">
 
-    <!-- STRICT SESSION AUTH & LOADING OVERLAY -->
     <div id="loader-overlay" class="fixed inset-0 bg-[#fcfbf9]/95 backdrop-blur-md z-[100] flex flex-col items-center justify-center space-y-6 transition-opacity duration-700">
         <div class="relative">
             <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-sky-600 to-emerald-500 flex items-center justify-center shadow-2xl animate-bounce">
@@ -112,10 +39,8 @@
         <div class="w-48 h-2 rounded-full overflow-hidden skeleton-shimmer"></div>
     </div>
 
-    <!-- MAIN APP CONTAINER -->
     <div class="w-full md:max-w-3xl lg:max-w-4xl max-w-md bg-white flex flex-col justify-between relative shadow-2xl border-x border-slate-200 pb-24 min-h-screen">
         
-        <!-- HEADER WITH LOGO BRANDING -->
         <header class="flex justify-between items-center px-4 py-3.5 border-b border-slate-200 bg-white/95 backdrop-blur-md sticky top-0 z-50 shadow-xs">
             <div class="flex items-center space-x-2.5">
                 <div class="bg-gradient-to-tr from-sky-600 to-emerald-500 p-2 rounded-xl flex items-center justify-center shadow-md shadow-sky-500/20">
@@ -133,7 +58,6 @@
             </button>
         </header>
 
-        <!-- MOBILE MENU DRAWER -->
         <div id="mobileMenu" class="fixed inset-y-0 right-0 w-80 bg-white z-50 transform translate-x-full transition-transform duration-300 ease-in-out p-6 shadow-2xl border-l border-slate-200 flex flex-col justify-between overflow-y-auto">
             <div>
                 <div class="flex justify-between items-center mb-6 border-b border-slate-200 pb-4">
@@ -167,7 +91,7 @@
                         <div class="marquee-text shining-text font-mono">TETHER TRADE PRIME • MULTI-CHAIN INSTITUTIONAL SETTLEMENT • ZERO FEES</div>
                     </div>
                     <h1 class="text-3xl sm:text-4xl font-black text-slate-900 leading-tight">Instant Institutional <br><span class="shining-text">USDT Acquisition</span></h1>
-                    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">Multi-chain wholesale settlement across TRC20, BEP20, ERC20, Polygon, and Solana with automated blockchain release.</p>
+                    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">Multi-chain wholesale settlement across TRC20, BEP20, ERC20, Polygon, Solana, and TON with automated blockchain release.</p>
                 </div>
 
                 <div class="space-y-2.5">
@@ -175,7 +99,6 @@
                     <button onclick="switchTab('faq')" class="w-full py-3.5 bg-white border border-slate-300 hover:border-slate-400 text-slate-700 font-bold rounded-2xl text-center text-sm transition shadow-xs">See how it works</button>
                 </div>
 
-                <!-- METRICS CARD WITH 4.9/5 RATING & SETTLED 2L+ DEALS -->
                 <div class="grid grid-cols-3 gap-3 bg-white p-4 rounded-3xl border border-slate-200 text-center shadow-md">
                     <div>
                         <div class="text-lg font-black text-slate-900">80,000+</div>
@@ -191,7 +114,6 @@
                     </div>
                 </div>
 
-                <!-- ANIMATED SHINING LIVE RATE CARD -->
                 <div class="shining-card text-white rounded-3xl p-6 relative shadow-xl overflow-hidden">
                     <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-sky-500/10 rounded-full blur-2xl pointer-events-none"></div>
                     <div class="flex justify-between items-center text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">
@@ -202,7 +124,7 @@
                     <p class="text-xs text-slate-400 mb-5">per USDT — wholesale pricing across all supported chains</p>
                     
                     <div class="border-t border-white/10 pt-4 space-y-2 text-xs font-semibold text-white font-mono">
-                        <div class="flex justify-between"><span>Supported Chains</span> <span class="text-sky-400">TRC20, BEP20, ERC20, POLY, SOL</span></div>
+                        <div class="flex justify-between"><span>Supported Chains</span> <span class="text-sky-400">TRC20, BEP20, ERC20, POLY, SOL, TON</span></div>
                         <div class="flex justify-between"><span>Min. Order Limit</span> <span class="text-emerald-400"><span id="displayMinOrder">20</span> USDT</span></div>
                     </div>
                 </div>
@@ -213,7 +135,6 @@
                     <button onclick="switchTab('buy')" class="w-full py-3.5 bg-white text-slate-900 hover:bg-slate-100 font-extrabold rounded-2xl text-sm shadow-lg">Buy USDT now</button>
                 </div>
 
-                <!-- PROFESSIONAL FOOTER WITH LOGO BRANDING -->
                 <footer class="pt-6 pb-4 border-t border-slate-200 space-y-6 text-slate-500 text-xs">
                     <div class="flex items-center space-x-2.5">
                         <div class="bg-gradient-to-tr from-sky-600 to-emerald-500 p-2 rounded-xl flex items-center justify-center shadow-md shadow-sky-500/20">
@@ -252,153 +173,216 @@
                 </footer>
             </div>
 
-            <!-- BUY TAB (2-STEP WORKFLOW WITH 5 NETWORKS & RAW UNRESTRICTED QR) -->
+            <!-- BUY TAB (EXACT SCREENSHOT WORKFLOW MATCH) -->
             <div id="tab-buy" class="p-4 sm:p-6 space-y-6 hidden">
-                <div class="bg-white border border-slate-200 p-4 rounded-2xl flex justify-between items-center shadow-xs">
-                    <span class="text-xs font-black uppercase tracking-wider text-slate-600">Live Institutional Rate</span>
-                    <span class="text-xl font-black text-sky-600 font-mono">₹<span id="wizardRate">91.45</span> <span class="text-xs font-bold text-slate-500">/ USDT</span></span>
+                <div class="bg-gradient-to-r from-blue-600 to-sky-600 text-white p-5 rounded-3xl shadow-lg space-y-3">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="font-bold opacity-80 uppercase tracking-wider">You buy</span>
+                        <span class="bg-amber-400 text-slate-900 px-3 py-1 rounded-full font-black text-[10px] uppercase shadow-sm">Awaiting payment</span>
+                    </div>
+                    <div class="text-3xl font-black font-mono"><span id="summaryUsdtTop">500</span> USDT</div>
+                    <div class="grid grid-cols-3 gap-2 pt-2 border-t border-white/20 text-xs font-mono">
+                        <div>
+                            <div class="opacity-70 text-[10px]">Amount to pay</div>
+                            <div class="font-extrabold text-sm" id="summaryInrTop">₹48,600.00</div>
+                        </div>
+                        <div>
+                            <div class="opacity-70 text-[10px]">Rate</div>
+                            <div class="font-extrabold text-sm" id="summaryRateTop">₹97.20 / USDT</div>
+                        </div>
+                        <div>
+                            <div class="opacity-70 text-[10px]">Order ID</div>
+                            <div class="font-extrabold text-sm">OD9R3T9Y</div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="flex items-center justify-center gap-4 px-4 py-2 bg-white rounded-2xl border border-slate-200 shadow-xs">
-                    <div class="flex items-center gap-2" id="step-badge-1">
-                        <div class="w-7 h-7 rounded-full bg-sky-600 text-white font-bold flex items-center justify-center text-xs">1</div>
-                        <span class="text-xs font-black text-slate-900">Order &amp; Network</span>
+                <!-- 4-STEP PROGRESS HEADER -->
+                <div class="bg-white border border-slate-200 p-4 rounded-2xl shadow-xs space-y-3">
+                    <div class="flex items-center justify-between px-2">
+                        <div class="flex flex-col items-center">
+                            <div class="w-7 h-7 rounded-full bg-sky-600 text-white font-bold flex items-center justify-center text-xs shadow-md">1</div>
+                            <span class="text-[10px] font-bold text-slate-900 mt-1">Pay</span>
+                        </div>
+                        <div class="w-10 h-0.5 bg-emerald-500"></div>
+                        <div class="flex flex-col items-center">
+                            <div class="w-7 h-7 rounded-full bg-slate-200 text-slate-600 font-bold flex items-center justify-center text-xs">2</div>
+                            <span class="text-[10px] font-bold text-slate-400 mt-1">Verify</span>
+                        </div>
+                        <div class="w-10 h-0.5 bg-slate-200"></div>
+                        <div class="flex flex-col items-center">
+                            <div class="w-7 h-7 rounded-full bg-slate-200 text-slate-600 font-bold flex items-center justify-center text-xs">3</div>
+                            <span class="text-[10px] font-bold text-slate-400 mt-1">Send USDT</span>
+                        </div>
+                        <div class="w-10 h-0.5 bg-slate-200"></div>
+                        <div class="flex flex-col items-center">
+                            <div class="w-7 h-7 rounded-full bg-slate-200 text-slate-600 font-bold flex items-center justify-center text-xs">4</div>
+                            <span class="text-[10px] font-bold text-slate-400 mt-1">Done</span>
+                        </div>
                     </div>
-                    <div class="w-12 h-0.5 bg-slate-200" id="step-line-1"></div>
-                    <div class="flex items-center gap-2" id="step-badge-2">
-                        <div class="w-7 h-7 rounded-full bg-slate-200 text-slate-600 font-bold flex items-center justify-center text-xs" id="badge-num-2">2</div>
-                        <span class="text-xs font-bold text-slate-400" id="badge-text-2">Payment &amp; UTR</span>
+
+                    <div id="payment-timer-box" class="bg-amber-50 border border-amber-200 text-amber-700 px-4 py-2.5 rounded-xl flex items-center justify-between font-mono font-bold text-xs">
+                        <span>Pay <span id="timerInrText">₹48,600.00</span> and submit proof within</span>
+                        <span id="countdown-display" class="text-sm font-black text-rose-600">09:54</span>
                     </div>
                 </div>
 
-                <!-- STEP 1 -->
-                <div id="buy-step-1" class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 space-y-5 shadow-xl">
-                    <h2 class="text-xl sm:text-2xl font-black text-slate-900">Step 1: Specify Order &amp; Network</h2>
+                <!-- STEP 1 CONFIG FORM -->
+                <div id="buy-step-1" class="bg-white border border-slate-200 rounded-3xl p-6 space-y-5 shadow-xl">
+                    <h2 class="text-xl font-black text-slate-900">Step 1: Order Details</h2>
                     
                     <div class="space-y-1.5">
                         <label class="text-xs font-black text-slate-700 uppercase tracking-wider">USDT Quantity</label>
-                        <input type="number" id="usdtInput" oninput="calculateINR()" placeholder="e.g., 500" class="w-full p-4 bg-slate-50 border border-slate-300 rounded-2xl font-black text-slate-900 text-lg font-mono focus:outline-none focus:border-sky-500 transition shadow-inner">
+                        <input type="number" id="usdtInput" oninput="calculateINR()" placeholder="e.g., 500" class="w-full p-4 bg-slate-50 border border-slate-300 rounded-2xl font-black text-slate-900 text-lg font-mono focus:outline-none focus:border-sky-500 transition shadow-inner" value="500">
                         <div class="text-xs text-slate-500 font-medium">Minimum order requirement: <span id="displayMinOrderStep1" class="font-bold text-slate-900 font-mono">20</span> USDT</div>
                     </div>
 
-                    <div class="space-y-2">
-                        <label class="text-xs font-black text-slate-700 uppercase tracking-wider">Select Blockchain Network &amp; Fee Deduction</label>
-                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 font-mono">
-                            <button type="button" onclick="selectNetwork('TRC20', 1.00)" id="net-trc20" class="net-btn p-3 border-2 border-sky-600 rounded-2xl text-xs font-bold text-left bg-sky-50 transition shadow-xs">
-                                <div class="font-black text-slate-900">TRC20</div>
-                                <div class="text-[10px] text-sky-700 mt-0.5">Fee: 1.00 USDT</div>
-                            </button>
-                            <button type="button" onclick="selectNetwork('BEP20', 0.20)" id="net-bep20" class="net-btn p-3 border border-slate-300 rounded-2xl text-xs font-bold text-left bg-white hover:border-slate-400 transition">
-                                <div class="font-black text-slate-900">BEP20</div>
-                                <div class="text-[10px] text-slate-500 mt-0.5">Fee: 0.20 USDT</div>
-                            </button>
-                            <button type="button" onclick="selectNetwork('ERC20', 5.00)" id="net-erc20" class="net-btn p-3 border border-slate-300 rounded-2xl text-xs font-bold text-left bg-white hover:border-slate-400 transition">
-                                <div class="font-black text-slate-900">ERC20</div>
-                                <div class="text-[10px] text-slate-500 mt-0.5">Fee: 5.00 USDT</div>
-                            </button>
-                            <button type="button" onclick="selectNetwork('Polygon', 0.50)" id="net-polygon" class="net-btn p-3 border border-slate-300 rounded-2xl text-xs font-bold text-left bg-white hover:border-slate-400 transition">
-                                <div class="font-black text-slate-900">Polygon</div>
-                                <div class="text-[10px] text-slate-500 mt-0.5">Fee: 0.50 USDT</div>
-                            </button>
-                            <button type="button" onclick="selectNetwork('Solana', 0.10)" id="net-solana" class="net-btn p-3 border border-slate-300 rounded-2xl text-xs font-bold text-left bg-white hover:border-slate-400 transition">
-                                <div class="font-black text-slate-900">Solana</div>
-                                <div class="text-[10px] text-slate-500 mt-0.5">Fee: 0.10 USDT</div>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="bg-sky-50/70 p-5 rounded-2xl border border-sky-100 space-y-2 font-mono text-xs">
-                        <div class="flex justify-between text-slate-600"><span>Network Fee:</span> <strong id="summaryFee" class="text-slate-900">1.00 USDT</strong></div>
-                        <div class="flex justify-between text-slate-600"><span>You Will Receive:</span> <strong id="summaryReceive" class="text-emerald-600 text-sm">0.00 USDT</strong></div>
-                        <div class="pt-2 border-t border-sky-200 flex justify-between text-slate-900 font-bold text-sm">
-                            <span>Total Payable (INR):</span> <span id="inrOutput" class="text-sky-700">₹0.00</span>
-                        </div>
-                    </div>
-
-                    <div class="space-y-1.5">
-                        <label id="walletLabel" class="text-xs font-black text-slate-700 uppercase tracking-wider">Destination Wallet Address (TRC20)</label>
-                        <input type="text" id="walletAddressInput" placeholder="Enter valid crypto wallet address" class="w-full p-4 bg-slate-50 border border-slate-300 rounded-2xl text-xs sm:text-sm font-mono font-bold text-slate-900 focus:outline-none focus:border-sky-500 transition shadow-inner">
-                    </div>
-
-                    <button type="button" onclick="goToStep2()" class="w-full py-4 bg-gradient-to-r from-sky-600 to-emerald-600 text-white font-extrabold rounded-2xl text-sm shadow-lg transition">
-                        Proceed to Payment (Step 2) →
+                    <button type="button" onclick="proceedToPaymentView()" class="w-full py-4 bg-gradient-to-r from-sky-600 to-emerald-600 text-white font-extrabold rounded-2xl text-sm shadow-lg transition">
+                        Proceed to Payment QR &amp; UTR →
                     </button>
                 </div>
 
-                <!-- STEP 2: RAW UNRESTRICTED QR & UPI BOX (2s SHAKE) -->
-                <div id="buy-step-2" class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl hidden">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-200 pb-4">
-                        <div>
-                            <h2 class="text-xl sm:text-2xl font-black text-slate-900">Step 2: Escrow Payment &amp; UTR</h2>
-                            <p class="text-xs text-slate-500">Scan QR or pay via UPI before the timer expires</p>
-                        </div>
-                        <div id="payment-timer-box" class="bg-rose-50 border border-rose-300 text-rose-600 px-4 py-2 rounded-2xl flex items-center gap-2 font-mono font-black text-sm sm:text-base animate-pulse shadow-xs">
-                            <i class="fa-regular fa-clock"></i>
-                            <span id="countdown-display">09:00</span>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-col items-center justify-center space-y-4 bg-slate-50 p-6 rounded-3xl border border-slate-200">
-                        <!-- Raw Unrestricted QR Container (Displays Uploaded Image Directly Without Cropping) -->
-                        <div class="w-full flex items-center justify-center overflow-hidden bg-transparent" id="adminQrContainer">
-                            <span class="text-xs text-slate-400 font-mono py-12">Loading Admin QR...</span>
-                        </div>
+                <!-- STEP 2 PAYMENT & UTR WORKFLOW (EXACT MATCH TO USER SCREENSHOTS) -->
+                <div id="buy-step-2" class="bg-white border border-slate-200 rounded-3xl p-6 space-y-6 shadow-xl hidden">
+                    
+                    <!-- 1. PAY TO ACCOUNTS SECTION -->
+                    <div class="space-y-3">
+                        <div class="text-xs font-black text-slate-900 uppercase tracking-wider">1. Pay to any of these accounts</div>
                         
-                        <!-- UPI ID UI Box with 2s Shake Animation -->
-                        <div class="w-full space-y-1 animate-upi-shake">
-                            <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider">Verified Merchant UPI ID</label>
-                            <div class="flex items-center bg-white border border-slate-300 rounded-2xl p-3.5 shadow-xs gap-2">
-                                <input type="text" id="displayUpiId" readonly value="Loading..." class="w-full bg-transparent font-mono text-xs sm:text-sm font-black text-slate-900 focus:outline-none truncate">
-                                <button type="button" onclick="copyUpiId()" class="bg-sky-50 hover:bg-sky-100 text-sky-700 px-4 py-2 rounded-xl text-xs font-extrabold transition shrink-0 shadow-xs">Copy</button>
+                        <div class="bg-slate-50 border border-slate-200 p-4 rounded-2xl space-y-3 shadow-xs font-mono text-xs">
+                            <div class="flex justify-between items-center pb-2 border-b border-slate-200">
+                                <span class="font-bold text-slate-500 uppercase text-[10px]">UPI</span>
+                                <span class="bg-sky-100 text-sky-700 px-2 py-0.5 rounded text-[10px] font-bold">Active</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-500">UPI ID</span>
+                                <div class="flex items-center gap-2">
+                                    <span id="displayUpiId" class="font-black text-slate-900">anjasha8294-2@okicici</span>
+                                    <button type="button" onclick="copyText('displayUpiId')" class="text-sky-600 hover:text-sky-800"><i class="fa-regular fa-copy"></i></button>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-500">Payee name</span>
+                                <div class="flex items-center gap-2">
+                                    <span class="font-black text-slate-900">priya singh</span>
+                                    <button type="button" onclick="copyText('priya singh')" class="text-sky-600 hover:text-sky-800"><i class="fa-regular fa-copy"></i></button>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-500">Amount</span>
+                                <div class="flex items-center gap-2">
+                                    <span id="displayPayeeAmount" class="font-black text-emerald-600 text-sm">48600.00</span>
+                                    <button type="button" onclick="copyText('displayPayeeAmount')" class="text-sky-600 hover:text-sky-800"><i class="fa-regular fa-copy"></i></button>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="bg-gradient-to-r from-sky-500 to-emerald-500 text-white p-5 rounded-2xl shadow-md flex justify-between items-center font-mono">
-                        <div>
-                            <div class="text-[11px] uppercase font-bold text-sky-100 font-sans">Amount to Pay</div>
-                            <div class="text-2xl sm:text-3xl font-black" id="payFinalINR">₹0.00</div>
-                        </div>
-                        <div class="text-right">
-                            <span class="text-xs bg-white/20 px-3 py-1 rounded-full font-bold font-sans">Escrow Secured</span>
+                        <!-- RAW UNRESTRICTED QR CODE DISPLAY -->
+                        <div class="flex flex-col items-center justify-center p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
+                            <div id="adminQrContainer" class="w-full flex items-center justify-center overflow-hidden">
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=upi://pay?pa=anjasha8294-2@okicici&pn=Priya%20Singh&am=48600.00" alt="Payment QR" class="w-64 h-64 object-contain block mx-auto">
+                            </div>
+                            <div class="text-[11px] text-slate-500 font-mono text-center">Scan with any UPI app · tap to enlarge</div>
                         </div>
                     </div>
 
+                    <!-- 2. SUBMIT PAYMENT PROOF & YOUR WALLET -->
                     <div class="space-y-4 pt-2 border-t border-slate-200">
-                        <div class="space-y-1.5">
-                            <label class="text-xs font-black text-slate-700 uppercase tracking-wider">12-Digit UTR / Reference Number</label>
-                            <input type="text" id="utrInput" placeholder="Enter 12-digit UTR reference" class="w-full p-4 bg-slate-50 border border-slate-300 rounded-2xl text-sm font-black text-slate-900 font-mono tracking-widest focus:outline-none focus:border-sky-500 transition shadow-inner">
+                        <div class="text-xs font-black text-slate-900 uppercase tracking-wider">2. Submit payment proof &amp; your wallet</div>
+
+                        <!-- Paid To Dropdown -->
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 uppercase">Paid to</label>
+                            <select class="w-full p-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-xs font-bold text-slate-800 focus:outline-none focus:border-sky-500">
+                                <option>UPI (anjasha8294-2@okicici)</option>
+                                <option>Direct Bank Transfer</option>
+                            </select>
                         </div>
-                        <div class="space-y-1.5">
-                            <label class="text-xs font-black text-slate-700 uppercase tracking-wider">Upload Payment Screenshot</label>
-                            <input type="file" id="paymentScreenshot" accept="image/*" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-2xl text-xs font-bold text-slate-700 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-extrabold file:bg-slate-900 file:text-white transition">
+
+                        <!-- UTR Input -->
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 uppercase">UTR / Reference number</label>
+                            <input type="text" id="utrInput" placeholder="12-digit UTR from your UPI / bank app" class="w-full p-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-xs font-black text-slate-900 font-mono tracking-widest focus:outline-none focus:border-sky-500">
                         </div>
-                    </div>
 
-                    <div class="space-y-3 pt-2 bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs">
-                        <label class="flex items-start gap-3 cursor-pointer">
-                            <input type="checkbox" id="checkPaid" class="mt-0.5 w-4 h-4 rounded text-sky-600 focus:ring-sky-500">
-                            <span class="font-bold text-slate-800">I confirm that I have successfully paid the exact INR amount from my own bank account.</span>
-                        </label>
-                        <label class="flex items-start gap-3 cursor-pointer">
-                            <input type="checkbox" id="checkTerms" class="mt-0.5 w-4 h-4 rounded text-sky-600 focus:ring-sky-500">
-                            <span class="font-semibold text-slate-600">I agree to the Terms of Service, AML/KYC guidelines, and Risk Disclosure policy.</span>
-                        </label>
-                    </div>
+                        <!-- Upload Screenshot Box -->
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 uppercase">Upload payment screenshot</label>
+                            <div class="border-2 border-dashed border-slate-300 hover:border-sky-500 rounded-2xl p-6 text-center bg-slate-50 cursor-pointer relative transition">
+                                <input type="file" id="paymentScreenshot" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
+                                <div class="space-y-2">
+                                    <div class="w-10 h-10 bg-sky-100 text-sky-600 rounded-full flex items-center justify-center mx-auto text-lg"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                                    <div class="text-xs font-bold text-slate-800">Upload payment screenshot</div>
+                                    <div class="text-[10px] text-slate-400">Tap to choose an image</div>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div id="order-loader" class="hidden py-6 text-center space-y-2">
-                        <div class="inline-block w-8 h-8 border-4 border-sky-600 border-t-transparent rounded-full animate-spin"></div>
-                        <div class="text-xs font-bold text-slate-700 font-mono">Verifying institutional escrow payment...</div>
-                    </div>
+                        <!-- WHERE SHOULD WE SEND YOUR USDT? -->
+                        <div class="space-y-3 pt-2">
+                            <div class="text-xs font-bold text-slate-900">Where should we send your USDT?</div>
+                            
+                            <!-- Exchange / Wallet Dropdown -->
+                            <div class="space-y-1">
+                                <select id="exchangeSelect" class="w-full p-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-xs font-bold text-slate-800 focus:outline-none">
+                                    <option value="Binance">Binance</option>
+                                    <option value="OKX">OKX</option>
+                                    <option value="Bybit">Bybit</option>
+                                    <option value="KuCoin">KuCoin</option>
+                                    <option value="Bitget">Bitget</option>
+                                    <option value="MEXC">MEXC</option>
+                                    <option value="CoinDCX">CoinDCX</option>
+                                    <option value="WazirX">WazirX</option>
+                                    <option value="Mudrex">Mudrex</option>
+                                    <option value="Trust Wallet">Trust Wallet</option>
+                                    <option value="MetaMask">MetaMask</option>
+                                    <option value="TronLink">TronLink</option>
+                                    <option value="Other wallet">Other wallet</option>
+                                </select>
+                            </div>
 
-                    <div class="flex gap-3 pt-2" id="step-2-buttons">
-                        <button type="button" onclick="backToStep1()" class="w-1/3 py-4 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-2xl text-xs transition">← Back</button>
-                        <button type="button" onclick="submitFinalOrder()" class="w-2/3 py-4 bg-gradient-to-r from-emerald-600 to-sky-600 hover:opacity-95 text-white font-extrabold rounded-2xl text-xs shadow-lg transition">Submit UTR &amp; Complete ✓</button>
+                            <!-- Network Dropdown (Includes TON) -->
+                            <div class="space-y-1">
+                                <select id="networkSelect" onchange="updateNetworkFee()" class="w-full p-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-xs font-bold text-slate-800 focus:outline-none">
+                                    <option value="TRC20">TRC20 (Tron) - Fee: 1.00 USDT</option>
+                                    <option value="BEP20">BEP20 (BSC) - Fee: 0.20 USDT</option>
+                                    <option value="ERC20">ERC20 (Ethereum) - Fee: 5.00 USDT</option>
+                                    <option value="Polygon">Polygon - Fee: 0.50 USDT</option>
+                                    <option value="Solana">Solana - Fee: 0.10 USDT</option>
+                                    <option value="TON">TON - Fee: 0.10 USDT</option>
+                                </select>
+                            </div>
+
+                            <!-- Wallet Deposit Address Input -->
+                            <div class="space-y-1">
+                                <input type="text" id="walletAddressInput" placeholder="Wallet deposit address" class="w-full p-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-xs font-mono font-bold text-slate-900 focus:outline-none">
+                                <p class="text-[10px] text-rose-500 font-medium">Double-check the network and address. USDT sent to a wrong address or network cannot be recovered.</p>
+                            </div>
+                        </div>
+
+                        <!-- Checkbox Confirmation -->
+                        <div class="space-y-2 pt-2">
+                            <label class="flex items-start gap-3 cursor-pointer">
+                                <input type="checkbox" id="checkPaid" class="mt-0.5 w-4 h-4 rounded text-sky-600 focus:ring-sky-500">
+                                <span class="text-xs font-bold text-slate-800" id="confirmTextLabel">I have paid exactly ₹48,600.00 from my own account</span>
+                            </label>
+                        </div>
+
+                        <!-- Submit & Cancel Buttons -->
+                        <div class="space-y-2 pt-2">
+                            <button type="button" onclick="submitFinalOrder()" class="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-2xl text-xs shadow-lg transition">
+                                Submit payment
+                            </button>
+                            <button type="button" onclick="backToStep1()" class="w-full py-3 bg-transparent text-rose-600 hover:bg-rose-50 font-bold rounded-2xl text-xs transition text-center">
+                                Cancel order
+                            </button>
+                        </div>
                     </div>
                 </div>
+
             </div>
 
-            <!-- TXNS TAB (REAL-TIME FIRESTORE SYNC & COUNTERS) -->
+            <!-- TXNS TAB -->
             <div id="tab-txn" class="p-4 sm:p-6 space-y-6 hidden">
                 <div class="space-y-1">
                     <h1 class="text-2xl sm:text-3xl font-black text-slate-900">Transactions</h1>
@@ -418,13 +402,6 @@
                         <div class="text-xl font-black text-amber-600 font-mono" id="cnt-pending">0</div>
                         <div class="text-[10px] text-slate-500 font-bold tracking-wider uppercase mt-1">PENDING</div>
                     </div>
-                </div>
-
-                <div class="flex space-x-2 overflow-x-auto pb-1 text-xs font-semibold">
-                    <button type="button" onclick="filterTransactions('All')" id="filter-all" class="px-4 py-2 bg-sky-600 text-white font-extrabold rounded-full shadow-xs">All</button>
-                    <button type="button" onclick="filterTransactions('Approved')" id="filter-completed" class="px-4 py-2 bg-white border border-slate-300 text-slate-600 rounded-full">Completed</button>
-                    <button type="button" onclick="filterTransactions('Pending')" id="filter-pending" class="px-4 py-2 bg-white border border-slate-300 text-slate-600 rounded-full">Pending</button>
-                    <button type="button" onclick="filterTransactions('Rejected')" id="filter-rejected" class="px-4 py-2 bg-white border border-slate-300 text-slate-600 rounded-full">Rejected</button>
                 </div>
 
                 <div id="userTxnList" class="space-y-3">
@@ -451,12 +428,12 @@
                     </details>
                     <details class="bg-white border border-slate-200 p-4 rounded-2xl shadow-xs">
                         <summary class="font-bold cursor-pointer flex justify-between items-center text-xs text-slate-800">Which networks are supported? <span>+</span></summary>
-                        <p class="text-xs text-slate-500 mt-2.5 leading-relaxed">We support lightning-fast TRC20, BEP20, ERC20, Polygon, and Solana networks for secure USDT transfers.</p>
+                        <p class="text-xs text-slate-500 mt-2.5 leading-relaxed">We support lightning-fast TRC20, BEP20, ERC20, Polygon, Solana, and TON networks for secure USDT transfers.</p>
                     </details>
                 </div>
             </div>
 
-            <!-- PROFILE TAB (WORKING TELEGRAM SUPPORT) -->
+            <!-- PROFILE TAB -->
             <div id="tab-profile" class="p-4 sm:p-6 space-y-6 hidden">
                 <div class="text-center pt-2">
                     <h1 class="text-2xl sm:text-3xl font-black text-slate-900">Account Profile</h1>
@@ -501,7 +478,6 @@
 
         </main>
 
-        <!-- BOTTOM NAVIGATION BAR -->
         <nav class="fixed bottom-0 w-full md:max-w-3xl lg:max-w-4xl max-w-md bg-white/95 backdrop-blur-md border-t border-slate-200 flex justify-around py-3 z-50 shadow-lg">
             <button type="button" onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center text-sky-600 transition">
                 <i class="fa-solid fa-house text-lg"></i>
@@ -527,35 +503,6 @@
 
     </div>
 
-    <!-- FLOATING AI ASSISTANT -->
-    <div class="fixed bottom-20 right-6 z-50">
-        <button type="button" onclick="toggleAiSupport()" class="w-14 h-14 rounded-full bg-gradient-to-r from-sky-600 to-emerald-500 text-white shadow-2xl flex items-center justify-center transition transform hover:scale-105 shadow-sky-500/40 relative">
-            <i class="fa-solid fa-robot text-xl"></i>
-            <span class="absolute top-0 right-0 w-3.5 h-3.5 bg-emerald-400 rounded-full border-2 border-white animate-ping"></span>
-        </button>
-
-        <div id="ai-support-modal" class="hidden absolute bottom-16 right-0 w-72 sm:w-80 bg-white border border-slate-200 rounded-3xl shadow-2xl p-4 space-y-3 font-mono text-xs z-50">
-            <div class="flex justify-between items-center pb-2 border-b border-slate-200">
-                <div class="flex items-center gap-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-                    <strong class="text-slate-900 text-xs">Tether Trade AI Desk</strong>
-                </div>
-                <button type="button" onclick="toggleAiSupport()" class="text-slate-400 hover:text-slate-700 font-bold">✕</button>
-            </div>
-            <div class="h-48 overflow-y-auto space-y-2 pr-1 text-slate-700" id="ai-chat-messages">
-                <div class="bg-sky-50 p-3 rounded-2xl border border-sky-100 text-slate-800 space-y-1">
-                    <strong class="text-sky-700 block">AI Support</strong>
-                    <p>Hello! How can I assist your settlement today?</p>
-                </div>
-            </div>
-            <form onsubmit="sendAiMessage(event)" class="flex gap-2 pt-1 border-t border-slate-200">
-                <input type="text" id="ai-input" placeholder="Ask anything..." required
-                    class="flex-1 bg-slate-50 border border-slate-200 rounded-xl py-2 px-3 text-slate-900 focus:outline-none focus:border-sky-500 text-xs font-sans">
-                <button type="submit" class="bg-sky-600 text-white font-bold px-3 py-2 rounded-xl hover:bg-sky-700 transition">Send</button>
-            </form>
-        </div>
-    </div>
-
     <!-- CUSTOM MODAL -->
     <div id="customModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden transition-opacity duration-300">
         <div class="bg-white border border-slate-200 w-full max-w-xs rounded-3xl p-6 text-center space-y-4 shadow-2xl transform scale-95 transition-transform" id="modalBox">
@@ -566,7 +513,6 @@
         </div>
     </div>
 
-    <!-- FIREBASE CDN -->
     <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-firestore-compat.js"></script>
 
@@ -585,19 +531,15 @@
         }
         const db = firebase.firestore();
 
-        let selectedNetworkType = "TRC20";
-        let networkFee = 1.00;
-        let liveRate = 91.45;
-        let adminUpiId = "9196463267@ptycs";
+        let liveRate = 97.20;
+        let adminUpiId = "anjasha8294-2@okicici";
         let telegramSupportLink = "https://t.me/Tetherguard7s";
         let minOrderLimit = 20;
         let paymentTimerInterval = null;
-        let paymentTimerSeconds = 540;
+        let paymentTimerSeconds = 594;
         let allUserOrders = [];
-        let currentTxnFilter = 'All';
 
         window.onload = async function() {
-            // STRICT FIREBASE SESSION VALIDATION CHECK
             const loggedInUserPhone = localStorage.getItem("user");
             if (!loggedInUserPhone) {
                 window.location.href = "index.html";
@@ -626,7 +568,6 @@
                     if(data.rate) {
                         liveRate = data.rate;
                         document.getElementById("displayRate").innerText = liveRate.toFixed(2);
-                        document.getElementById("wizardRate").innerText = liveRate.toFixed(2);
                     }
                     if(data.minOrder) {
                         minOrderLimit = data.minOrder;
@@ -635,7 +576,7 @@
                     }
                     if(data.upi) {
                         adminUpiId = data.upi;
-                        document.getElementById("displayUpiId").value = adminUpiId;
+                        document.getElementById("displayUpiId").innerText = adminUpiId;
                     }
                     if(data.telegram) {
                         let tg = data.telegram.trim();
@@ -647,11 +588,10 @@
                             telegramSupportLink = tg;
                         }
                     }
-                    
                     if(data.qrCode) {
                         const qrContainer = document.getElementById("adminQrContainer");
                         if(qrContainer) {
-                            qrContainer.innerHTML = `<img src="${data.qrCode}" alt="Admin Payment QR" class="w-full h-auto max-h-[360px] object-contain block mx-auto">`;
+                            qrContainer.innerHTML = `<img src="${data.qrCode}" alt="Payment QR" class="w-64 h-64 object-contain block mx-auto">`;
                         }
                     }
                 }
@@ -662,11 +602,12 @@
             window.open(telegramSupportLink, '_blank');
         }
 
-        function copyUpiId() {
-            const upiField = document.getElementById("displayUpiId");
-            upiField.select();
-            document.execCommand('copy');
-            showCustomModal("Success", "UPI ID copied to clipboard!");
+        function copyText(valOrId) {
+            let text = valOrId;
+            const el = document.getElementById(valOrId);
+            if(el) text = el.innerText;
+            navigator.clipboard.writeText(text);
+            showCustomModal("Success", "Copied to clipboard!");
         }
 
         async function fetchUserData(phone) {
@@ -706,90 +647,33 @@
             document.getElementById('mobileMenu').classList.toggle('translate-x-full');
         }
 
-        function toggleAiSupport() {
-            document.getElementById('ai-support-modal').classList.toggle('hidden');
-        }
-
-        function sendAiMessage(e) {
-            e.preventDefault();
-            const input = document.getElementById('ai-input');
-            const msg = input.value.trim();
-            if(!msg) return;
-
-            const chat = document.getElementById('ai-chat-messages');
-            chat.innerHTML += `<div class="bg-slate-100 p-2.5 rounded-2xl text-slate-800 ml-4 font-sans text-xs"><b>You:</b> ${msg}</div>`;
-            input.value = '';
-            chat.scrollTop = chat.scrollHeight;
-
-            setTimeout(() => {
-                chat.innerHTML += `<div class="bg-sky-50 p-2.5 rounded-2xl border border-sky-100 text-slate-800 mr-4 font-sans text-xs"><b>AI Support:</b> Your transaction will be verified instantly upon UTR submission!</div>`;
-                chat.scrollTop = chat.scrollHeight;
-            }, 800);
-        }
-
-        function selectNetwork(net, fee) {
-            selectedNetworkType = net;
-            networkFee = fee;
-
-            ['trc20', 'bep20', 'erc20', 'polygon', 'solana'].forEach(n => {
-                const btn = document.getElementById(`net-${n}`);
-                if(btn) {
-                    if(n === net.toLowerCase()) {
-                        btn.className = "net-btn p-3 border-2 border-sky-600 rounded-2xl text-xs font-bold text-left bg-sky-50 transition shadow-xs";
-                    } else {
-                        btn.className = "net-btn p-3 border border-slate-300 rounded-2xl text-xs font-bold text-left bg-white hover:border-slate-400 transition";
-                    }
-                }
-            });
-
-            document.getElementById('walletLabel').innerText = `Destination Wallet Address (${net})`;
-            calculateINR();
-        }
-
         function calculateINR() {
             const val = parseFloat(document.getElementById('usdtInput').value) || 0;
             const totalINR = val * liveRate;
-            const receiveAmount = val > networkFee ? val - networkFee : 0;
 
-            document.getElementById('inrOutput').innerText = '₹' + totalINR.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            document.getElementById('payFinalINR').innerText = '₹' + totalINR.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            document.getElementById('summaryFee').innerText = networkFee.toFixed(2) + ' USDT';
-            document.getElementById('summaryReceive').innerText = receiveAmount.toFixed(2) + ' USDT';
+            document.getElementById('summaryUsdtTop').innerText = val;
+            document.getElementById('summaryInrTop').innerText = '₹' + totalINR.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('summaryRateTop').innerText = '₹' + liveRate.toFixed(2) + ' / USDT';
+            document.getElementById('timerInrText').innerText = '₹' + totalINR.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('displayPayeeAmount').innerText = totalINR.toFixed(2);
+            document.getElementById('confirmTextLabel').innerText = `I have paid exactly ₹${totalINR.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})} from my own account`;
         }
 
-        function goToStep2() {
+        function proceedToPaymentView() {
             const usdtVal = parseFloat(document.getElementById('usdtInput').value) || 0;
-            const wallet = document.getElementById('walletAddressInput').value.trim();
-
             if (usdtVal < minOrderLimit) {
                 showCustomModal("Notice", "Minimum order requirement is " + minOrderLimit + " USDT!");
                 return;
             }
-            if (!wallet || wallet.length < 10) {
-                showCustomModal("Error", "Please enter a valid crypto wallet address!");
-                return;
-            }
-
             document.getElementById('buy-step-1').classList.add('hidden');
             document.getElementById('buy-step-2').classList.remove('hidden');
-
-            document.getElementById('step-badge-1').innerHTML = '<div class="w-7 h-7 rounded-full bg-emerald-500 text-white font-bold flex items-center justify-center text-xs">✓</div><span class="text-xs font-bold text-slate-500">Order &amp; Network</span>';
-            document.getElementById('step-line-1').className = "w-12 h-0.5 bg-emerald-500";
-            document.getElementById('badge-num-2').className = "w-7 h-7 rounded-full bg-sky-600 text-white font-bold flex items-center justify-center text-xs";
-            document.getElementById('badge-text-2').className = "text-xs font-black text-slate-900";
-
-            startPaymentTimer(540);
+            startPaymentTimer(594);
         }
 
         function backToStep1() {
             if (paymentTimerInterval) clearInterval(paymentTimerInterval);
             document.getElementById('buy-step-2').classList.add('hidden');
             document.getElementById('buy-step-1').classList.remove('hidden');
-            
-            document.getElementById('step-badge-1').innerHTML = '<div class="w-7 h-7 rounded-full bg-sky-600 text-white font-bold flex items-center justify-center text-xs">1</div><span class="text-xs font-black text-slate-900">Order &amp; Network</span>';
-            document.getElementById('step-line-1').className = "w-12 h-0.5 bg-slate-200";
-            document.getElementById('badge-num-2').className = "w-7 h-7 rounded-full bg-slate-200 text-slate-600 font-bold flex items-center justify-center text-xs";
-            document.getElementById('badge-text-2').className = "text-xs font-bold text-slate-400";
         }
 
         function startPaymentTimer(durationSeconds) {
@@ -807,34 +691,31 @@
                 if (--paymentTimerSeconds < 0) {
                     clearInterval(paymentTimerInterval);
                     if(display) display.innerText = "EXPIRED";
-                    showCustomModal("Expired", "Payment timer expired. Please restart order.");
                 }
             }, 1000);
         }
 
         async function submitFinalOrder() {
             const usdt = document.getElementById('usdtInput').value;
-            const wallet = document.getElementById('walletAddressInput').value;
+            const exchange = document.getElementById('exchangeSelect').value;
+            const network = document.getElementById('networkSelect').value;
+            const wallet = document.getElementById('walletAddressInput').value.trim();
             const utr = document.getElementById('utrInput').value.trim();
             const fileInput = document.getElementById('paymentScreenshot');
             const checkPaid = document.getElementById('checkPaid').checked;
-            const checkTerms = document.getElementById('checkTerms').checked;
 
             if(!utr || utr.length < 8) {
                 showCustomModal("Error", "Please enter a valid 12-digit UTR reference number.");
                 return;
             }
+            if(!wallet || wallet.length < 8) {
+                showCustomModal("Error", "Please enter a valid deposit wallet address.");
+                return;
+            }
             if(!checkPaid) {
-                showCustomModal("Confirmation Required", "Please check 'I Have Successfully Paid' to proceed.");
+                showCustomModal("Confirmation Required", "Please check 'I have paid exactly...' to confirm your payment.");
                 return;
             }
-            if(!checkTerms) {
-                showCustomModal("Terms Required", "Please agree to the Terms of Service & AML/KYC policy.");
-                return;
-            }
-
-            document.getElementById('step-2-buttons').classList.add('hidden');
-            document.getElementById('order-loader').classList.remove('hidden');
 
             let screenshotUrl = "";
             if (fileInput.files && fileInput.files[0]) {
@@ -850,8 +731,8 @@
                 await db.collection("orders").add({
                     phone: phone,
                     usdtAmount: usdt,
-                    network: selectedNetworkType,
-                    networkFee: networkFee,
+                    exchange: exchange,
+                    network: network,
                     walletAddress: wallet,
                     utr: utr,
                     screenshot: screenshotUrl,
@@ -860,19 +741,10 @@
                 });
             } catch(e) {}
 
-            setTimeout(() => {
-                if (paymentTimerInterval) clearInterval(paymentTimerInterval);
-                showCustomModal("Success!", "Your order has been submitted successfully for verification.");
-                switchTab('txn');
-                document.getElementById('order-loader').classList.add('hidden');
-                document.getElementById('step-2-buttons').classList.remove('hidden');
-                backToStep1();
-                document.getElementById('usdtInput').value = '';
-                document.getElementById('utrInput').value = '';
-                document.getElementById('checkPaid').checked = false;
-                document.getElementById('checkTerms').checked = false;
-                calculateINR();
-            }, 1200);
+            if (paymentTimerInterval) clearInterval(paymentTimerInterval);
+            showCustomModal("Success!", "Your payment proof & order has been submitted successfully.");
+            switchTab('txn');
+            backToStep1();
         }
 
         async function fetchUserTransactions(phone) {
@@ -882,7 +754,6 @@
                 if(snapshot.empty) {
                     list.innerHTML = `<div class="bg-white border border-slate-200 p-6 rounded-3xl text-center text-xs text-slate-500">No orders found yet.</div>`;
                     updateTxnCounters([]);
-                    allUserOrders = [];
                     return;
                 }
                 
@@ -890,7 +761,38 @@
                 snapshot.forEach(doc => allUserOrders.push(doc.data()));
 
                 updateTxnCounters(allUserOrders);
-                renderFilteredTransactions(currentTxnFilter);
+                
+                let html = "";
+                allUserOrders.forEach(d => {
+                    let statusColor = "text-amber-700 bg-amber-50 border-amber-200";
+                    let displayStatus = d.status || "Pending";
+                    if(d.status === "Approved" || d.status === "Completed") {
+                        statusColor = "text-emerald-700 bg-emerald-50 border-emerald-200";
+                        displayStatus = "Completed ✓";
+                    }
+                    if(d.status === "Rejected") {
+                        statusColor = "text-rose-700 bg-rose-50 border-rose-200";
+                        displayStatus = "Rejected ✕";
+                    }
+
+                    let rejectionText = d.rejectReason || d.remarks || d.reason || "";
+                    let reasonHtml = "";
+                    if(d.status === "Rejected" && rejectionText) {
+                        reasonHtml = `<div class="mt-2 p-2.5 bg-rose-50 border border-rose-200 rounded-2xl text-[11px] text-rose-700"><strong>Reason:</strong> ${rejectionText}</div>`;
+                    }
+
+                    html += `
+                    <div class="bg-white border border-slate-200 p-5 rounded-3xl space-y-2 shadow-xs font-mono text-xs">
+                        <div class="flex justify-between items-center">
+                            <span class="font-black text-slate-900">${d.usdtAmount} USDT (${d.network})</span>
+                            <span class="px-3 py-1 rounded-full text-[10px] font-extrabold border ${statusColor}">${displayStatus}</span>
+                        </div>
+                        <div class="text-[11px] text-slate-500">UTR: ${d.utr || 'N/A'} • Exchange: ${d.exchange || 'Binance'}</div>
+                        <div class="text-[10px] text-slate-400 truncate">Wallet: ${d.walletAddress}</div>
+                        ${reasonHtml}
+                    </div>`;
+                });
+                list.innerHTML = html;
             } catch(e) {
                 list.innerHTML = `<div class="bg-white border border-slate-200 p-6 rounded-3xl text-center text-xs text-rose-500">Error loading orders</div>`;
             }
@@ -904,72 +806,6 @@
             document.getElementById('cnt-total').innerText = total;
             document.getElementById('cnt-completed').innerText = completed;
             document.getElementById('cnt-pending').innerText = pending;
-        }
-
-        function filterTransactions(status) {
-            currentTxnFilter = status;
-            ['All', 'Approved', 'Pending', 'Rejected'].forEach(s => {
-                const btnId = s === 'Approved' ? 'filter-completed' : `filter-${s.toLowerCase()}`;
-                const btn = document.getElementById(btnId);
-                if(btn) {
-                    if(s === status) {
-                        btn.className = "px-4 py-2 bg-sky-600 text-white font-extrabold rounded-full shadow-xs";
-                    } else {
-                        btn.className = "px-4 py-2 bg-white border border-slate-300 text-slate-600 rounded-full";
-                    }
-                }
-            });
-            renderFilteredTransactions(status);
-        }
-
-        function renderFilteredTransactions(status) {
-            const list = document.getElementById("userTxnList");
-            let filtered = allUserOrders;
-
-            if(status !== 'All') {
-                if(status === 'Approved') {
-                    filtered = allUserOrders.filter(d => d.status === 'Approved' || d.status === 'Completed');
-                } else {
-                    filtered = allUserOrders.filter(d => d.status === status);
-                }
-            }
-
-            if(filtered.length === 0) {
-                list.innerHTML = `<div class="bg-white border border-slate-200 p-6 rounded-3xl text-center text-xs text-slate-500">No transactions found for this filter.</div>`;
-                return;
-            }
-
-            let html = "";
-            filtered.forEach(d => {
-                let statusColor = "text-amber-700 bg-amber-50 border-amber-200";
-                let displayStatus = d.status || "Pending";
-                if(d.status === "Approved" || d.status === "Completed") {
-                    statusColor = "text-emerald-700 bg-emerald-50 border-emerald-200";
-                    displayStatus = "Completed ✓";
-                }
-                if(d.status === "Rejected") {
-                    statusColor = "text-rose-700 bg-rose-50 border-rose-200";
-                    displayStatus = "Rejected ✕";
-                }
-
-                let rejectionText = d.rejectReason || d.remarks || d.reason || "";
-                let reasonHtml = "";
-                if(d.status === "Rejected" && rejectionText) {
-                    reasonHtml = `<div class="mt-2 p-2.5 bg-rose-50 border border-rose-200 rounded-2xl text-[11px] text-rose-700"><strong>Reason:</strong> ${rejectionText}</div>`;
-                }
-
-                html += `
-                <div class="bg-white border border-slate-200 p-5 rounded-3xl space-y-2 shadow-xs font-mono text-xs">
-                    <div class="flex justify-between items-center">
-                        <span class="font-black text-slate-900">${d.usdtAmount} USDT (${d.network})</span>
-                        <span class="px-3 py-1 rounded-full text-[10px] font-extrabold border ${statusColor}">${displayStatus}</span>
-                    </div>
-                    <div class="text-[11px] text-slate-500">UTR: ${d.utr || 'N/A'}</div>
-                    <div class="text-[10px] text-slate-400 truncate">Wallet: ${d.walletAddress}</div>
-                    ${reasonHtml}
-                </div>`;
-            });
-            list.innerHTML = html;
         }
 
         function logoutUser() {

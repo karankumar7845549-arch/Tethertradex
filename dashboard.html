@@ -63,15 +63,6 @@
             100% { transform: translateX(100%) rotate(30deg); }
         }
 
-        /* QR Code Blink Animation every 1.5 seconds */
-        @keyframes qrBlink {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.6; transform: scale(0.97); }
-        }
-        .animate-qr-blink {
-            animation: qrBlink 1.5s ease-in-out infinite;
-        }
-
         /* UPI Box Shake Animation every 2 seconds */
         @keyframes upiShake {
             0%, 100% { transform: translateX(0); }
@@ -261,7 +252,7 @@
                 </footer>
             </div>
 
-            <!-- BUY TAB (2-STEP WORKFLOW WITH 5 NETWORKS & ANIMATED QR / SHAKE UPI) -->
+            <!-- BUY TAB (2-STEP WORKFLOW WITH 5 NETWORKS & STABLE QR / SHAKE UPI) -->
             <div id="tab-buy" class="p-4 sm:p-6 space-y-6 hidden">
                 <div class="bg-white border border-slate-200 p-4 rounded-2xl flex justify-between items-center shadow-xs">
                     <span class="text-xs font-black uppercase tracking-wider text-slate-600">Live Institutional Rate</span>
@@ -334,7 +325,7 @@
                     </button>
                 </div>
 
-                <!-- STEP 2: FIRESTORE QR (1.5s BLINK) & UPI BOX (2s SHAKE) -->
+                <!-- STEP 2: STABLE QR CONTAINER & UPI BOX (2s SHAKE) -->
                 <div id="buy-step-2" class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl hidden">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-200 pb-4">
                         <div>
@@ -348,8 +339,8 @@
                     </div>
 
                     <div class="flex flex-col items-center justify-center space-y-4 bg-slate-50 p-6 rounded-3xl border border-slate-200">
-                        <!-- Dynamic Admin QR Code container with 1.5s Blink Animation -->
-                        <div class="bg-white p-3 rounded-2xl shadow-md border-2 border-sky-500 w-48 h-48 flex items-center justify-center overflow-hidden animate-qr-blink" id="adminQrContainer">
+                        <!-- Fully Stable QR Code Container (No Animation, Fully Responsive & Non-Cutting) -->
+                        <div class="bg-white p-3 rounded-2xl shadow-md border-2 border-sky-500 w-full max-w-[240px] aspect-square flex items-center justify-center overflow-hidden" id="adminQrContainer">
                             <span class="text-xs text-slate-400 font-mono">Loading Admin QR...</span>
                         </div>
                         
@@ -907,8 +898,8 @@
 
         function updateTxnCounters(orders) {
             const total = orders.length;
-            const completed = orders.filter(o => o.status === "Approved").length;
-            const pending = orders.filter(o => o.status === "Pending").length;
+            const completed = orders.filter(o => o.status === "Approved" || o.status === "Completed").length;
+            const pending = orders.filter(o => o.status === "Pending" || !o.status).length;
 
             document.getElementById('cnt-total').innerText = total;
             document.getElementById('cnt-completed').innerText = completed;
@@ -931,12 +922,16 @@
             renderFilteredTransactions(status);
         }
 
-                        function renderFilteredTransactions(status) {
+        function renderFilteredTransactions(status) {
             const list = document.getElementById("userTxnList");
             let filtered = allUserOrders;
 
             if(status !== 'All') {
-                filtered = allUserOrders.filter(d => d.status === status);
+                if(status === 'Approved') {
+                    filtered = allUserOrders.filter(d => d.status === 'Approved' || d.status === 'Completed');
+                } else {
+                    filtered = allUserOrders.filter(d => d.status === status);
+                }
             }
 
             if(filtered.length === 0) {
@@ -948,7 +943,7 @@
             filtered.forEach(d => {
                 let statusColor = "text-amber-700 bg-amber-50 border-amber-200";
                 let displayStatus = d.status || "Pending";
-                if(d.status === "Approved") {
+                if(d.status === "Approved" || d.status === "Completed") {
                     statusColor = "text-emerald-700 bg-emerald-50 border-emerald-200";
                     displayStatus = "Completed ✓";
                 }
@@ -957,8 +952,7 @@
                     displayStatus = "Rejected ✕";
                 }
 
-                // Multiple field fallback check for reject reason
-                let rejectionText = d.rejectReason || d.reason || d.rejectionReason || "";
+                let rejectionText = d.rejectReason || d.remarks || d.reason || "";
                 let reasonHtml = "";
                 if(d.status === "Rejected" && rejectionText) {
                     reasonHtml = `<div class="mt-2 p-2.5 bg-rose-50 border border-rose-200 rounded-2xl text-[11px] text-rose-700"><strong>Reason:</strong> ${rejectionText}</div>`;
@@ -970,14 +964,13 @@
                         <span class="font-black text-slate-900">${d.usdtAmount} USDT (${d.network})</span>
                         <span class="px-3 py-1 rounded-full text-[10px] font-extrabold border ${statusColor}">${displayStatus}</span>
                     </div>
-                    <div class="text-[11px] text-slate-500">UTR: ${d.utr}</div>
+                    <div class="text-[11px] text-slate-500">UTR: ${d.utr || 'N/A'}</div>
                     <div class="text-[10px] text-slate-400 truncate">Wallet: ${d.walletAddress}</div>
                     ${reasonHtml}
                 </div>`;
             });
             list.innerHTML = html;
         }
-
 
         function logoutUser() {
             localStorage.removeItem("user");

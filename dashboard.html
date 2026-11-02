@@ -25,6 +25,7 @@
 </head>
 <body class="bg-[#fcfbf9] text-slate-900 flex justify-center min-h-screen relative">
 
+    <!-- INITIAL LOADER -->
     <div id="loader-overlay" class="fixed inset-0 bg-[#fcfbf9]/95 backdrop-blur-md z-[100] flex flex-col items-center justify-center space-y-6 transition-opacity duration-700">
         <div class="relative">
             <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-sky-600 to-emerald-500 flex items-center justify-center shadow-2xl animate-bounce">
@@ -39,8 +40,10 @@
         <div class="w-48 h-2 rounded-full overflow-hidden skeleton-shimmer"></div>
     </div>
 
+    <!-- MAIN APP CONTAINER -->
     <div class="w-full md:max-w-3xl lg:max-w-4xl max-w-md bg-white flex flex-col justify-between relative shadow-2xl border-x border-slate-200 pb-24 min-h-screen">
         
+        <!-- HEADER -->
         <header class="flex justify-between items-center px-4 py-3.5 border-b border-slate-200 bg-white/95 backdrop-blur-md sticky top-0 z-50 shadow-xs">
             <div class="flex items-center space-x-2.5">
                 <div class="bg-gradient-to-tr from-sky-600 to-emerald-500 p-2 rounded-xl flex items-center justify-center shadow-md shadow-sky-500/20">
@@ -58,6 +61,7 @@
             </button>
         </header>
 
+        <!-- SIDE MENU DRAWER -->
         <div id="mobileMenu" class="fixed inset-y-0 right-0 w-80 bg-white z-50 transform translate-x-full transition-transform duration-300 ease-in-out p-6 shadow-2xl border-l border-slate-200 flex flex-col justify-between overflow-y-auto">
             <div>
                 <div class="flex justify-between items-center mb-6 border-b border-slate-200 pb-4">
@@ -173,157 +177,101 @@
                 </footer>
             </div>
 
-            <!-- BUY TAB (EXACT SCREENSHOT WORKFLOW MATCH) -->
+            <!-- BUY TAB (CLEAN 2-STEP WORKFLOW & RAW UNMASKED QR) -->
             <div id="tab-buy" class="p-4 sm:p-6 space-y-6 hidden">
-                <div class="bg-gradient-to-r from-blue-600 to-sky-600 text-white p-5 rounded-3xl shadow-lg space-y-3">
-                    <div class="flex justify-between items-center text-xs">
-                        <span class="font-bold opacity-80 uppercase tracking-wider">You buy</span>
-                        <span class="bg-amber-400 text-slate-900 px-3 py-1 rounded-full font-black text-[10px] uppercase shadow-sm">Awaiting payment</span>
-                    </div>
-                    <div class="text-3xl font-black font-mono"><span id="summaryUsdtTop">500</span> USDT</div>
-                    <div class="grid grid-cols-3 gap-2 pt-2 border-t border-white/20 text-xs font-mono">
-                        <div>
-                            <div class="opacity-70 text-[10px]">Amount to pay</div>
-                            <div class="font-extrabold text-sm" id="summaryInrTop">₹48,600.00</div>
-                        </div>
-                        <div>
-                            <div class="opacity-70 text-[10px]">Rate</div>
-                            <div class="font-extrabold text-sm" id="summaryRateTop">₹97.20 / USDT</div>
-                        </div>
-                        <div>
-                            <div class="opacity-70 text-[10px]">Order ID</div>
-                            <div class="font-extrabold text-sm">OD9R3T9Y</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 4-STEP PROGRESS HEADER -->
-                <div class="bg-white border border-slate-200 p-4 rounded-2xl shadow-xs space-y-3">
-                    <div class="flex items-center justify-between px-2">
-                        <div class="flex flex-col items-center">
-                            <div class="w-7 h-7 rounded-full bg-sky-600 text-white font-bold flex items-center justify-center text-xs shadow-md">1</div>
-                            <span class="text-[10px] font-bold text-slate-900 mt-1">Pay</span>
-                        </div>
-                        <div class="w-10 h-0.5 bg-emerald-500"></div>
-                        <div class="flex flex-col items-center">
-                            <div class="w-7 h-7 rounded-full bg-slate-200 text-slate-600 font-bold flex items-center justify-center text-xs">2</div>
-                            <span class="text-[10px] font-bold text-slate-400 mt-1">Verify</span>
-                        </div>
-                        <div class="w-10 h-0.5 bg-slate-200"></div>
-                        <div class="flex flex-col items-center">
-                            <div class="w-7 h-7 rounded-full bg-slate-200 text-slate-600 font-bold flex items-center justify-center text-xs">3</div>
-                            <span class="text-[10px] font-bold text-slate-400 mt-1">Send USDT</span>
-                        </div>
-                        <div class="w-10 h-0.5 bg-slate-200"></div>
-                        <div class="flex flex-col items-center">
-                            <div class="w-7 h-7 rounded-full bg-slate-200 text-slate-600 font-bold flex items-center justify-center text-xs">4</div>
-                            <span class="text-[10px] font-bold text-slate-400 mt-1">Done</span>
-                        </div>
+                
+                <!-- STEP 1: AMOUNT CONFIGURATION -->
+                <div id="buy-step-1" class="bg-white border border-slate-200 rounded-3xl p-6 space-y-6 shadow-xl">
+                    <div class="space-y-1">
+                        <span class="text-xs font-bold text-sky-600 uppercase tracking-wider">Step 1 of 2</span>
+                        <h2 class="text-2xl font-black text-slate-900">Enter USDT Quantity</h2>
+                        <p class="text-xs text-slate-500">Calculate exact INR payable based on live institutional rates.</p>
                     </div>
 
-                    <div id="payment-timer-box" class="bg-amber-50 border border-amber-200 text-amber-700 px-4 py-2.5 rounded-xl flex items-center justify-between font-mono font-bold text-xs">
-                        <span>Pay <span id="timerInrText">₹48,600.00</span> and submit proof within</span>
-                        <span id="countdown-display" class="text-sm font-black text-rose-600">09:54</span>
-                    </div>
-                </div>
-
-                <!-- STEP 1 CONFIG FORM -->
-                <div id="buy-step-1" class="bg-white border border-slate-200 rounded-3xl p-6 space-y-5 shadow-xl">
-                    <h2 class="text-xl font-black text-slate-900">Step 1: Order Details</h2>
-                    
-                    <div class="space-y-1.5">
+                    <div class="space-y-2">
                         <label class="text-xs font-black text-slate-700 uppercase tracking-wider">USDT Quantity</label>
-                        <input type="number" id="usdtInput" oninput="calculateINR()" placeholder="e.g., 500" class="w-full p-4 bg-slate-50 border border-slate-300 rounded-2xl font-black text-slate-900 text-lg font-mono focus:outline-none focus:border-sky-500 transition shadow-inner" value="500">
-                        <div class="text-xs text-slate-500 font-medium">Minimum order requirement: <span id="displayMinOrderStep1" class="font-bold text-slate-900 font-mono">20</span> USDT</div>
+                        <input type="number" id="usdtInput" oninput="calculateINR()" placeholder="e.g. 500" class="w-full p-4 bg-slate-50 border border-slate-300 rounded-2xl font-black text-slate-900 text-lg font-mono focus:outline-none focus:border-sky-500 transition shadow-inner" value="">
+                        <div class="text-xs text-slate-500 font-medium flex justify-between">
+                            <span>Minimum order requirement: <span id="displayMinOrderStep1" class="font-bold text-slate-900 font-mono">20</span> USDT</span>
+                            <span class="text-sky-600 font-bold">Rate: ₹<span id="step1RateDisplay">91.45</span> / USDT</span>
+                        </div>
                     </div>
 
-                    <button type="button" onclick="proceedToPaymentView()" class="w-full py-4 bg-gradient-to-r from-sky-600 to-emerald-600 text-white font-extrabold rounded-2xl text-sm shadow-lg transition">
-                        Proceed to Payment QR &amp; UTR →
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2 font-mono text-xs">
+                        <div class="flex justify-between text-slate-500">
+                            <span>Total INR Payable:</span>
+                            <span class="font-black text-slate-900 text-sm" id="calcTotalInrDisplay">₹0.00</span>
+                        </div>
+                    </div>
+
+                    <button type="button" onclick="proceedToPaymentWorkflow()" class="w-full py-4 bg-gradient-to-r from-sky-600 to-emerald-600 text-white font-extrabold rounded-2xl text-sm shadow-lg transition">
+                        Proceed to Payment &amp; UTR →
                     </button>
                 </div>
 
-                <!-- STEP 2 PAYMENT & UTR WORKFLOW (EXACT MATCH TO USER SCREENSHOTS) -->
+                <!-- STEP 2: PAYMENT & DIRECT RAW UNCROPPED QR CODE WORKFLOW -->
                 <div id="buy-step-2" class="bg-white border border-slate-200 rounded-3xl p-6 space-y-6 shadow-xl hidden">
-                    
-                    <!-- 1. PAY TO ACCOUNTS SECTION -->
-                    <div class="space-y-3">
-                        <div class="text-xs font-black text-slate-900 uppercase tracking-wider">1. Pay to any of these accounts</div>
-                        
-                        <div class="bg-slate-50 border border-slate-200 p-4 rounded-2xl space-y-3 shadow-xs font-mono text-xs">
-                            <div class="flex justify-between items-center pb-2 border-b border-slate-200">
-                                <span class="font-bold text-slate-500 uppercase text-[10px]">UPI</span>
-                                <span class="bg-sky-100 text-sky-700 px-2 py-0.5 rounded text-[10px] font-bold">Active</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-slate-500">UPI ID</span>
-                                <div class="flex items-center gap-2">
-                                    <span id="displayUpiId" class="font-black text-slate-900">anjasha8294-2@okicici</span>
-                                    <button type="button" onclick="copyText('displayUpiId')" class="text-sky-600 hover:text-sky-800"><i class="fa-regular fa-copy"></i></button>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-slate-500">Payee name</span>
-                                <div class="flex items-center gap-2">
-                                    <span class="font-black text-slate-900">priya singh</span>
-                                    <button type="button" onclick="copyText('priya singh')" class="text-sky-600 hover:text-sky-800"><i class="fa-regular fa-copy"></i></button>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-slate-500">Amount</span>
-                                <div class="flex items-center gap-2">
-                                    <span id="displayPayeeAmount" class="font-black text-emerald-600 text-sm">48600.00</span>
-                                    <button type="button" onclick="copyText('displayPayeeAmount')" class="text-sky-600 hover:text-sky-800"><i class="fa-regular fa-copy"></i></button>
-                                </div>
-                            </div>
+                    <div class="flex justify-between items-center border-b border-slate-200 pb-4">
+                        <div>
+                            <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider">Step 2 of 2</span>
+                            <h2 class="text-xl font-black text-slate-900">Scan &amp; Submit Proof</h2>
                         </div>
+                        <button type="button" onclick="backToStep1()" class="text-xs font-bold text-slate-500 hover:text-slate-800 bg-slate-100 px-3 py-1.5 rounded-xl">← Back</button>
+                    </div>
 
-                        <!-- RAW UNRESTRICTED QR CODE DISPLAY -->
-                        <div class="flex flex-col items-center justify-center p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
-                            <div id="adminQrContainer" class="w-full flex items-center justify-center overflow-hidden">
-                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=upi://pay?pa=anjasha8294-2@okicici&pn=Priya%20Singh&am=48600.00" alt="Payment QR" class="w-64 h-64 object-contain block mx-auto">
-                            </div>
-                            <div class="text-[11px] text-slate-500 font-mono text-center">Scan with any UPI app · tap to enlarge</div>
+                    <!-- SUMMARY BANNER -->
+                    <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-4 rounded-2xl space-y-1 font-mono text-xs">
+                        <div class="flex justify-between opacity-70 text-[10px]">
+                            <span>ORDER AMOUNT</span>
+                            <span>PAYABLE INR</span>
+                        </div>
+                        <div class="flex justify-between font-black text-sm">
+                            <span id="summaryUsdtVal">0 USDT</span>
+                            <span class="text-emerald-400 text-base" id="summaryInrVal">₹0.00</span>
                         </div>
                     </div>
 
-                    <!-- 2. SUBMIT PAYMENT PROOF & YOUR WALLET -->
+                    <!-- DIRECT RAW UNMASKED QR CODE DISPLAY (NO CONTAINERS, PADDING, OR CROPPING) -->
+                    <div class="space-y-3">
+                        <div class="text-xs font-black text-slate-900 uppercase tracking-wider">1. Scan QR to pay</div>
+                        
+                        <div class="w-full flex flex-col items-center justify-center space-y-3">
+                            <div id="adminQrContainer" class="w-full flex items-center justify-center">
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=upi://pay?pa=anjasha8294-2@okicici&pn=TetherTrade&am=0" alt="Payment QR" class="max-w-[260px] h-auto object-contain block mx-auto">
+                            </div>
+                            <div class="text-xs font-mono text-slate-600 text-center font-bold">
+                                UPI ID: <span id="displayUpiId" class="text-sky-600">anjasha8294-2@okicici</span>
+                                <button type="button" onclick="copyText('displayUpiId')" class="ml-2 text-slate-500 hover:text-slate-800"><i class="fa-regular fa-copy"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. SUBMIT UTR & WALLET DETAILS -->
                     <div class="space-y-4 pt-2 border-t border-slate-200">
-                        <div class="text-xs font-black text-slate-900 uppercase tracking-wider">2. Submit payment proof &amp; your wallet</div>
+                        <div class="text-xs font-black text-slate-900 uppercase tracking-wider">2. Submit UTR &amp; Receiving Wallet</div>
 
-                        <!-- Paid To Dropdown -->
                         <div class="space-y-1">
-                            <label class="text-[10px] font-bold text-slate-500 uppercase">Paid to</label>
-                            <select class="w-full p-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-xs font-bold text-slate-800 focus:outline-none focus:border-sky-500">
-                                <option>UPI (anjasha8294-2@okicici)</option>
-                                <option>Direct Bank Transfer</option>
-                            </select>
+                            <label class="text-[10px] font-bold text-slate-500 uppercase">UTR / Reference Number (12 digits)</label>
+                            <input type="text" id="utrInput" placeholder="Enter 12-digit UTR number" class="w-full p-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-xs font-black text-slate-900 font-mono tracking-widest focus:outline-none focus:border-sky-500">
                         </div>
 
-                        <!-- UTR Input -->
                         <div class="space-y-1">
-                            <label class="text-[10px] font-bold text-slate-500 uppercase">UTR / Reference number</label>
-                            <input type="text" id="utrInput" placeholder="12-digit UTR from your UPI / bank app" class="w-full p-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-xs font-black text-slate-900 font-mono tracking-widest focus:outline-none focus:border-sky-500">
-                        </div>
-
-                        <!-- Upload Screenshot Box -->
-                        <div class="space-y-1">
-                            <label class="text-[10px] font-bold text-slate-500 uppercase">Upload payment screenshot</label>
-                            <div class="border-2 border-dashed border-slate-300 hover:border-sky-500 rounded-2xl p-6 text-center bg-slate-50 cursor-pointer relative transition">
+                            <label class="text-[10px] font-bold text-slate-500 uppercase">Payment Screenshot</label>
+                            <div class="border-2 border-dashed border-slate-300 hover:border-sky-500 rounded-2xl p-5 text-center bg-slate-50 cursor-pointer relative transition">
                                 <input type="file" id="paymentScreenshot" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
-                                <div class="space-y-2">
-                                    <div class="w-10 h-10 bg-sky-100 text-sky-600 rounded-full flex items-center justify-center mx-auto text-lg"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                                <div class="space-y-1">
+                                    <div class="text-sky-600 text-lg"><i class="fa-solid fa-cloud-arrow-up"></i></div>
                                     <div class="text-xs font-bold text-slate-800">Upload payment screenshot</div>
-                                    <div class="text-[10px] text-slate-400">Tap to choose an image</div>
+                                    <div class="text-[10px] text-slate-400">Tap to select image from device</div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- WHERE SHOULD WE SEND YOUR USDT? -->
                         <div class="space-y-3 pt-2">
                             <div class="text-xs font-bold text-slate-900">Where should we send your USDT?</div>
                             
-                            <!-- Exchange / Wallet Dropdown -->
                             <div class="space-y-1">
+                                <label class="text-[10px] font-bold text-slate-500 uppercase">Exchange / Wallet Provider</label>
                                 <select id="exchangeSelect" class="w-full p-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-xs font-bold text-slate-800 focus:outline-none">
                                     <option value="Binance">Binance</option>
                                     <option value="OKX">OKX</option>
@@ -333,7 +281,6 @@
                                     <option value="MEXC">MEXC</option>
                                     <option value="CoinDCX">CoinDCX</option>
                                     <option value="WazirX">WazirX</option>
-                                    <option value="Mudrex">Mudrex</option>
                                     <option value="Trust Wallet">Trust Wallet</option>
                                     <option value="MetaMask">MetaMask</option>
                                     <option value="TronLink">TronLink</option>
@@ -341,40 +288,28 @@
                                 </select>
                             </div>
 
-                            <!-- Network Dropdown (Includes TON) -->
                             <div class="space-y-1">
-                                <select id="networkSelect" onchange="updateNetworkFee()" class="w-full p-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-xs font-bold text-slate-800 focus:outline-none">
-                                    <option value="TRC20">TRC20 (Tron) - Fee: 1.00 USDT</option>
-                                    <option value="BEP20">BEP20 (BSC) - Fee: 0.20 USDT</option>
-                                    <option value="ERC20">ERC20 (Ethereum) - Fee: 5.00 USDT</option>
-                                    <option value="Polygon">Polygon - Fee: 0.50 USDT</option>
-                                    <option value="Solana">Solana - Fee: 0.10 USDT</option>
-                                    <option value="TON">TON - Fee: 0.10 USDT</option>
+                                <label class="text-[10px] font-bold text-slate-500 uppercase">Blockchain Network</label>
+                                <select id="networkSelect" class="w-full p-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-xs font-bold text-slate-800 focus:outline-none">
+                                    <option value="TRC20">TRC20 (Tron)</option>
+                                    <option value="BEP20">BEP20 (BSC)</option>
+                                    <option value="ERC20">ERC20 (Ethereum)</option>
+                                    <option value="Polygon">Polygon</option>
+                                    <option value="Solana">Solana</option>
+                                    <option value="TON">TON</option>
                                 </select>
                             </div>
 
-                            <!-- Wallet Deposit Address Input -->
                             <div class="space-y-1">
-                                <input type="text" id="walletAddressInput" placeholder="Wallet deposit address" class="w-full p-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-xs font-mono font-bold text-slate-900 focus:outline-none">
-                                <p class="text-[10px] text-rose-500 font-medium">Double-check the network and address. USDT sent to a wrong address or network cannot be recovered.</p>
+                                <label class="text-[10px] font-bold text-slate-500 uppercase">Wallet Deposit Address</label>
+                                <input type="text" id="walletAddressInput" placeholder="Paste your USDT deposit address here" class="w-full p-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-xs font-mono font-bold text-slate-900 focus:outline-none">
+                                <p class="text-[10px] text-rose-500 font-medium">Verify your network &amp; address carefully. Funds sent to wrong network are unrecoverable.</p>
                             </div>
                         </div>
 
-                        <!-- Checkbox Confirmation -->
-                        <div class="space-y-2 pt-2">
-                            <label class="flex items-start gap-3 cursor-pointer">
-                                <input type="checkbox" id="checkPaid" class="mt-0.5 w-4 h-4 rounded text-sky-600 focus:ring-sky-500">
-                                <span class="text-xs font-bold text-slate-800" id="confirmTextLabel">I have paid exactly ₹48,600.00 from my own account</span>
-                            </label>
-                        </div>
-
-                        <!-- Submit & Cancel Buttons -->
-                        <div class="space-y-2 pt-2">
+                        <div class="pt-2">
                             <button type="button" onclick="submitFinalOrder()" class="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-2xl text-xs shadow-lg transition">
-                                Submit payment
-                            </button>
-                            <button type="button" onclick="backToStep1()" class="w-full py-3 bg-transparent text-rose-600 hover:bg-rose-50 font-bold rounded-2xl text-xs transition text-center">
-                                Cancel order
+                                Submit Order &amp; Proof
                             </button>
                         </div>
                     </div>
@@ -382,11 +317,11 @@
 
             </div>
 
-            <!-- TXNS TAB -->
+            <!-- TXNS TAB (TRANSACTION HISTORY WITH REJECTION REASON SUPPORT) -->
             <div id="tab-txn" class="p-4 sm:p-6 space-y-6 hidden">
                 <div class="space-y-1">
                     <h1 class="text-2xl sm:text-3xl font-black text-slate-900">Transactions</h1>
-                    <p class="text-slate-500 text-xs">Track every buy order and escrow status in real-time.</p>
+                    <p class="text-slate-500 text-xs">Real-time escrow status and order history.</p>
                 </div>
 
                 <div class="grid grid-cols-3 gap-3">
@@ -420,11 +355,11 @@
                 <div class="space-y-3 text-sm">
                     <details class="bg-white border border-slate-200 p-4 rounded-2xl shadow-xs">
                         <summary class="font-bold cursor-pointer flex justify-between items-center text-xs text-slate-800">Does the rate change based on fund type? <span>+</span></summary>
-                        <p class="text-xs text-slate-500 mt-2.5 leading-relaxed">No, we maintain a single published rate for everyone without any tiered pricing or hidden deductions.</p>
+                        <p class="text-xs text-slate-500 mt-2.5 leading-relaxed">No, we maintain a single published wholesale rate for everyone without any tiered pricing.</p>
                     </details>
                     <details class="bg-white border border-slate-200 p-4 rounded-2xl shadow-xs">
                         <summary class="font-bold cursor-pointer flex justify-between items-center text-xs text-slate-800">How long does payout take? <span>+</span></summary>
-                        <p class="text-xs text-slate-500 mt-2.5 leading-relaxed">Typically payouts are processed and successfully credited in under 15 minutes after payment verification.</p>
+                        <p class="text-xs text-slate-500 mt-2.5 leading-relaxed">Typically payouts are processed and successfully credited in under 15 minutes after UTR verification.</p>
                     </details>
                     <details class="bg-white border border-slate-200 p-4 rounded-2xl shadow-xs">
                         <summary class="font-bold cursor-pointer flex justify-between items-center text-xs text-slate-800">Which networks are supported? <span>+</span></summary>
@@ -478,6 +413,7 @@
 
         </main>
 
+        <!-- BOTTOM NAV -->
         <nav class="fixed bottom-0 w-full md:max-w-3xl lg:max-w-4xl max-w-md bg-white/95 backdrop-blur-md border-t border-slate-200 flex justify-around py-3 z-50 shadow-lg">
             <button type="button" onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center text-sky-600 transition">
                 <i class="fa-solid fa-house text-lg"></i>
@@ -513,6 +449,7 @@
         </div>
     </div>
 
+    <!-- FIREBASE SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-firestore-compat.js"></script>
 
@@ -531,13 +468,10 @@
         }
         const db = firebase.firestore();
 
-        let liveRate = 97.20;
+        let liveRate = 91.45;
         let adminUpiId = "anjasha8294-2@okicici";
         let telegramSupportLink = "https://t.me/Tetherguard7s";
         let minOrderLimit = 20;
-        let paymentTimerInterval = null;
-        let paymentTimerSeconds = 594;
-        let allUserOrders = [];
 
         window.onload = async function() {
             const loggedInUserPhone = localStorage.getItem("user");
@@ -557,7 +491,6 @@
             await fetchGlobalSettings();
             fetchUserData(loggedInUserPhone);
             fetchUserTransactions(loggedInUserPhone);
-            calculateINR();
         };
 
         async function fetchGlobalSettings() {
@@ -568,6 +501,7 @@
                     if(data.rate) {
                         liveRate = data.rate;
                         document.getElementById("displayRate").innerText = liveRate.toFixed(2);
+                        document.getElementById("step1RateDisplay").innerText = liveRate.toFixed(2);
                     }
                     if(data.minOrder) {
                         minOrderLimit = data.minOrder;
@@ -591,7 +525,7 @@
                     if(data.qrCode) {
                         const qrContainer = document.getElementById("adminQrContainer");
                         if(qrContainer) {
-                            qrContainer.innerHTML = `<img src="${data.qrCode}" alt="Payment QR" class="w-64 h-64 object-contain block mx-auto">`;
+                            qrContainer.innerHTML = `<img src="${data.qrCode}" alt="Payment QR" class="max-w-[260px] h-auto object-contain block mx-auto">`;
                         }
                     }
                 }
@@ -650,49 +584,26 @@
         function calculateINR() {
             const val = parseFloat(document.getElementById('usdtInput').value) || 0;
             const totalINR = val * liveRate;
-
-            document.getElementById('summaryUsdtTop').innerText = val;
-            document.getElementById('summaryInrTop').innerText = '₹' + totalINR.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            document.getElementById('summaryRateTop').innerText = '₹' + liveRate.toFixed(2) + ' / USDT';
-            document.getElementById('timerInrText').innerText = '₹' + totalINR.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            document.getElementById('displayPayeeAmount').innerText = totalINR.toFixed(2);
-            document.getElementById('confirmTextLabel').innerText = `I have paid exactly ₹${totalINR.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})} from my own account`;
+            document.getElementById('calcTotalInrDisplay').innerText = '₹' + totalINR.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
         }
 
-        function proceedToPaymentView() {
+        function proceedToPaymentWorkflow() {
             const usdtVal = parseFloat(document.getElementById('usdtInput').value) || 0;
             if (usdtVal < minOrderLimit) {
                 showCustomModal("Notice", "Minimum order requirement is " + minOrderLimit + " USDT!");
                 return;
             }
+            const totalINR = usdtVal * liveRate;
+            document.getElementById('summaryUsdtVal').innerText = usdtVal + " USDT";
+            document.getElementById('summaryInrVal').innerText = '₹' + totalINR.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            
             document.getElementById('buy-step-1').classList.add('hidden');
             document.getElementById('buy-step-2').classList.remove('hidden');
-            startPaymentTimer(594);
         }
 
         function backToStep1() {
-            if (paymentTimerInterval) clearInterval(paymentTimerInterval);
             document.getElementById('buy-step-2').classList.add('hidden');
             document.getElementById('buy-step-1').classList.remove('hidden');
-        }
-
-        function startPaymentTimer(durationSeconds) {
-            if (paymentTimerInterval) clearInterval(paymentTimerInterval);
-            paymentTimerSeconds = durationSeconds;
-            const display = document.getElementById('countdown-display');
-            
-            paymentTimerInterval = setInterval(() => {
-                let minutes = Math.floor(paymentTimerSeconds / 60);
-                let seconds = paymentTimerSeconds % 60;
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
-                if(display) display.innerText = `${minutes}:${seconds}`;
-
-                if (--paymentTimerSeconds < 0) {
-                    clearInterval(paymentTimerInterval);
-                    if(display) display.innerText = "EXPIRED";
-                }
-            }, 1000);
         }
 
         async function submitFinalOrder() {
@@ -702,7 +613,6 @@
             const wallet = document.getElementById('walletAddressInput').value.trim();
             const utr = document.getElementById('utrInput').value.trim();
             const fileInput = document.getElementById('paymentScreenshot');
-            const checkPaid = document.getElementById('checkPaid').checked;
 
             if(!utr || utr.length < 8) {
                 showCustomModal("Error", "Please enter a valid 12-digit UTR reference number.");
@@ -710,10 +620,6 @@
             }
             if(!wallet || wallet.length < 8) {
                 showCustomModal("Error", "Please enter a valid deposit wallet address.");
-                return;
-            }
-            if(!checkPaid) {
-                showCustomModal("Confirmation Required", "Please check 'I have paid exactly...' to confirm your payment.");
                 return;
             }
 
@@ -741,8 +647,8 @@
                 });
             } catch(e) {}
 
-            if (paymentTimerInterval) clearInterval(paymentTimerInterval);
             showCustomModal("Success!", "Your payment proof & order has been submitted successfully.");
+            document.getElementById('usdtInput').value = '';
             switchTab('txn');
             backToStep1();
         }
@@ -757,7 +663,7 @@
                     return;
                 }
                 
-                allUserOrders = [];
+                let allUserOrders = [];
                 snapshot.forEach(doc => allUserOrders.push(doc.data()));
 
                 updateTxnCounters(allUserOrders);
@@ -775,6 +681,7 @@
                         displayStatus = "Rejected ✕";
                     }
 
+                    // Multi-field rejection reason lookup supporting remarks, rejectReason, and reason
                     let rejectionText = d.rejectReason || d.remarks || d.reason || "";
                     let reasonHtml = "";
                     if(d.status === "Rejected" && rejectionText) {
